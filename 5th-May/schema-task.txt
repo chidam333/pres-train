@@ -1,0 +1,17 @@
+Movie-
+	movie_id, title
+
+Format-
+	format_id, movie_id, format_type
+
+Category-
+	category_id, movie_id, category_type
+
+Customer-
+	cust_id, full_name, contact , membership_tier
+
+Customer_fav-
+	fav_id, cust_id, favourite_genre
+
+Rented_movies-
+	rented_id, cust_id, movie_id, start_date, end_date

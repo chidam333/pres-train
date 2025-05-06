@@ -1,0 +1,2 @@
+- Did the installation for sql server
+- Also downloaded and installed ssms
