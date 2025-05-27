@@ -1,0 +1,91 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "19th-May", "19th-May", "{9D865045-74FC-EDBC-8F20-5E298EF13DD4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "demo", "19th-May\demo\demo.csproj", "{3D333954-B767-438D-8A48-66DA95540B49}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "26th-May", "26th-May", "{FC65A0F4-9D23-CF03-1E17-E33DE84F5E5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "26th-May\WebApplication1\WebApplication1.csproj", "{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "27th-May", "27th-May", "{09C5E17A-004C-51EE-690A-78C1ADC405DA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "twitter-like", "27th-May\twitter-like\twitter-like.csproj", "{D1641449-F497-44B4-A06B-8F9BD18538D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "twitter-like2", "twitter-like2", "{C1494D0F-FC11-AB9B-B567-452613878267}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "twitter-like", "27th-May\twitter-like2\twitter-like\twitter-like.csproj", "{FE5768CD-901B-4528-812C-D8B982FFF1E3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|x64.Build.0 = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Debug|x86.Build.0 = Debug|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|x64.ActiveCfg = Release|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|x64.Build.0 = Release|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|x86.ActiveCfg = Release|Any CPU
+		{3D333954-B767-438D-8A48-66DA95540B49}.Release|x86.Build.0 = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|x64.Build.0 = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Debug|x86.Build.0 = Debug|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|x64.ActiveCfg = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|x64.Build.0 = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|x86.ActiveCfg = Release|Any CPU
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD}.Release|x86.Build.0 = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|x64.Build.0 = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Debug|x86.Build.0 = Debug|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|x64.ActiveCfg = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|x64.Build.0 = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{D1641449-F497-44B4-A06B-8F9BD18538D1}.Release|x86.Build.0 = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|x64.Build.0 = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Debug|x86.Build.0 = Debug|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|x64.ActiveCfg = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|x64.Build.0 = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|x86.ActiveCfg = Release|Any CPU
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3D333954-B767-438D-8A48-66DA95540B49} = {9D865045-74FC-EDBC-8F20-5E298EF13DD4}
+		{5276B3AF-088D-4E9A-94B1-B58E94AF63DD} = {FC65A0F4-9D23-CF03-1E17-E33DE84F5E5F}
+		{D1641449-F497-44B4-A06B-8F9BD18538D1} = {09C5E17A-004C-51EE-690A-78C1ADC405DA}
+		{C1494D0F-FC11-AB9B-B567-452613878267} = {09C5E17A-004C-51EE-690A-78C1ADC405DA}
+		{FE5768CD-901B-4528-812C-D8B982FFF1E3} = {C1494D0F-FC11-AB9B-B567-452613878267}
+	EndGlobalSection
+EndGlobal

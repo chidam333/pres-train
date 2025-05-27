@@ -1,0 +1,6 @@
+@twitter_like_HostAddress = http://localhost:5053
+
+GET {{twitter_like_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
