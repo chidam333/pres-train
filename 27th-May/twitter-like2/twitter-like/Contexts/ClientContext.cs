@@ -17,6 +17,15 @@ public class ClientContext : DbContext
         var connectionString = _configuration.GetConnectionString("DefaultConnection");
         optionsBuilder.UseNpgsql(connectionString);
     }
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        
+    }
     public DbSet<Follow> Follow { get; set; }
-    public DbSet<Comment> Comment { get; set; }   
+    public DbSet<Comment> Comment { get; set; }
+    public DbSet<Tweet> Tweet { get; set; }
+    public DbSet<User> User { get; set; }
+    public DbSet<Like> Like { get; set; }
+    public DbSet<Retweet> Retweet { get; set; }
+
 }

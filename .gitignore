@@ -2,3 +2,25 @@
 *.dll
 bin/
 Debug/
+obj/
+Release/
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+*.csproj.user
+*.nupkg
+*.DotSettings.user
+*.log
+*.tlog
+*.pdb
+*.cache
+project.lock.json
+TestResults/
+BuildLog.*
+# Rider specific
+*.idea/
+*.iml
+# Roslyn
+*.ruleset.user
