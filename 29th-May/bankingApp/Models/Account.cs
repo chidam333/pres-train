@@ -11,5 +11,4 @@ public class Account
     public required decimal Balance { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public AccountKind AccountType { get; set; } = AccountKind.Savings;
-    public ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 }

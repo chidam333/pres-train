@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace bankingApp.Migrations
 {
     /// <inheritdoc />
-    public partial class init : Migration
+    public partial class init10 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,8 +18,8 @@ namespace bankingApp.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    Balance = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Balance = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     AccountType = table.Column<string>(type: "text", nullable: false)
                 },
@@ -35,7 +35,7 @@ namespace bankingApp.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Description = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
                     TransactionDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TransactionType = table.Column<string>(type: "text", nullable: false),
                     AccountId = table.Column<int>(type: "integer", nullable: false)

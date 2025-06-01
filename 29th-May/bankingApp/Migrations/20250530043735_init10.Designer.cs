@@ -12,8 +12,8 @@ using bankingApp.Contexts;
 namespace bankingApp.Migrations
 {
     [DbContext(typeof(BankingContext))]
-    [Migration("20250529114854_init9")]
-    partial class init9
+    [Migration("20250530043735_init10")]
+    partial class init10
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -88,17 +88,12 @@ namespace bankingApp.Migrations
             modelBuilder.Entity("Transaction", b =>
                 {
                     b.HasOne("Account", "Account")
-                        .WithMany("Transactions")
+                        .WithMany()
                         .HasForeignKey("AccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Account");
-                });
-
-            modelBuilder.Entity("Account", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }
