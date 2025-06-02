@@ -1,8 +1,10 @@
+namespace FaqAiApi.Models;
+
 public class BotRequest
 {
-    public required int RequestId { get; set; }
+    public int RequestId { get; set; }
     public required string UserMessage { get; set; }
-    public required DateTime CreatedAt { get; set; }
-    public required string SessionId { get; set; }
-    public Session? Session { get; set; } 
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public required int SessionId { get; set; }
+    public Session? Session { get; set; }
 }

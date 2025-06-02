@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using FaqAiApi.Models;
+
+namespace FaqAiApi.Contexts;
 
 public class FaqContext : DbContext
 {
@@ -8,6 +11,8 @@ public class FaqContext : DbContext
 
     public DbSet<BotRequest> BotRequests { get; set; }
     public DbSet<BotResponse> BotResponses { get; set; }
+    public DbSet<Session> Sessions { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -37,7 +42,11 @@ public class FaqContext : DbContext
                     .WithMany(s => s.BotResponses)
                     .HasForeignKey(e => e.SessionId)
                     .OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(e => e.Feedback);
+                entity.HasOne(e => e.Feedback)
+                    .WithMany()
+                    .HasForeignKey(e => e.FeedbackId)
+                    .OnDelete(DeleteBehavior.SetNull)
+                    .IsRequired(false);
             }
         );
 
@@ -46,6 +55,24 @@ public class FaqContext : DbContext
             {
                 entity.HasKey(e => e.FeedbackId);
                 entity.Property(e => e.Value).IsRequired();
+            }
+        );
+
+        modelBuilder.Entity<Session>(
+            entity =>
+            {
+                entity.HasKey(e => e.SessionId);
+                entity.HasMany(e => e.BotRequests)
+                    .WithOne(req => req.Session)
+                    .HasForeignKey(req => req.SessionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.BotResponses)
+                    .WithOne(res => res.Session)
+                    .HasForeignKey(res => res.SessionId)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(e => e.Feedbacks)
+                    .WithOne()
+                    .OnDelete(DeleteBehavior.Cascade);
             }
         );
     }
