@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Upload Test</title>
+</head>
+<body>
+    <h1>File Upload Test</h1>
+    
+    JWT Token: <input type="text" id="jwtToken" size="50" value="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJyYW0iLCJlbWFpbCI6InJhbUBnbWFpbC5jb20iLCJyb2xlIjoiSFIiLCJuYmYiOjE3NDkxMjQ2ODIsImV4cCI6MTc0OTIxMTA4MiwiaWF0IjoxNzQ5MTI0NjgyfQ.GMHshoRAxZuPLKUbYrgGDMzhsHvihduSLycbYbjmISY"><br><br>
+    
+    File: <input type="file" id="fileInput"><br><br>
+    
+    <button onclick="connect()">Connect</button>
+    <button onclick="upload()">Upload</button><br><br>
+    
+    Status: <span id="status">Disconnected</span><br><br>
+    
+    <div id="messages"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+    <script>
+        let connection = null;
+
+        function log(msg) {
+            document.getElementById('messages').innerHTML += msg + '<br>';
+        }
+
+        async function connect() {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl('https://localhost:7259/notoficationhub')
+                .build();
+
+            connection.on("FileUploaded", function (message) {
+                log("Notification: " + message);
+            });
+
+            await connection.start();
+            document.getElementById('status').textContent = 'Connected';
+            log('Connected to SignalR');
+        }
+
+        async function upload() {
+            const file = document.getElementById('fileInput').files[0];
+            const token = document.getElementById('jwtToken').value;
+            
+            if (!file || !token) {
+                alert('Select file and enter token');
+                return;
+            }
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            const response = await fetch('https://localhost:7259/api/file/upload', {
+                method: 'POST',
+                headers: { 'Authorization': 'Bearer ' + token },
+                body: formData
+            });
+
+            if (response.ok) {
+                log('File uploaded: ' + file.name);
+            } else {
+                log('Upload failed');
+            }
+        }
+    </script>
+</body>
+</html>

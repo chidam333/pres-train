@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
-using HrSystem.Hubs;
 using System;
 using System.IO;
 
@@ -10,12 +9,10 @@ using System.IO;
 public class fileController : ControllerBase
 {
     private readonly IWebHostEnvironment _environment;
-    private readonly IHubContext<NotificationHub> _hubContext;
     
-    public fileController(IWebHostEnvironment environment, IHubContext<NotificationHub> hubContext)
+    public fileController(IWebHostEnvironment environment)
     {
         _environment = environment;
-        _hubContext = hubContext;
     }
     [HttpPost("upload")]
     [Authorize]
@@ -30,9 +27,6 @@ public class fileController : ControllerBase
         {
             await file.CopyToAsync(stream);
         }
-        
-        await _hubContext.Clients.All.SendAsync("FileUploaded", "File is uploaded");
-        
         return Ok(new { FilePath = filePath });
     }
 

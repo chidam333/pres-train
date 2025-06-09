@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10th June Task</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; line-height: 1.6; color: #333333; background: #F5F5F5; }
+        
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .font-poppins { font-family: 'Poppins', sans-serif; }
+        
+        .text-h1 { font-size: 32px; }
+        .text-h2 { font-size: 24px; }
+        .text-body { font-size: 16px; }
+        .text-large { font-size: 18px; }
+        .text-hero { font-size: 48px; }
+        .text-logo { font-size: 20px; }
+        
+        .weight-regular { font-weight: 400; }
+        .weight-medium { font-weight: 500; }
+        .weight-semibold { font-weight: 600; }
+        
+        .text-primary { color: #333333; }
+        .text-secondary { color: #666666; }
+        .text-light { color: #CCCCCC; }
+        .text-white { color: #FFFFFF; }
+        .text-blue { color: #5AA3E8; }
+        
+        .bg-white { background: #FFFFFF; }
+        .bg-light { background: #F5F5F5; }
+        .bg-accent { background: #E0E0E0; }
+        .bg-blue { background: #5AA3E8; }
+        .bg-hero { background: #d9ecfc; }
+        .bg-card { background: #E8F4FD; }
+        
+        .text-center { text-align: center; }
+        .no-decoration { text-decoration: none; }
+        .heading { font-family: 'Poppins', sans-serif; font-size: 32px; font-weight: 600; color: #333333; text-align: center; margin-bottom: 48px; }
+        
+        @media (max-width: 768px) {
+            .nav-links { display: none !important; }
+            .main-content { grid-template-columns: 1fr !important; text-align: center; }
+            .hero-text h1 { font-size: 36px !important; }
+            .services-grid { grid-template-columns: 1fr !important; }
+            .hours-grid { grid-template-columns: 1fr !important; }
+            .testimonial-card { padding: 32px 24px !important; }
+            .container { padding: 0 20px !important; }
+        }
+    </style>
+</head>
+<body>
+    <header class="bg-white" style="padding: 20px 120px;">
+            <nav style="display: grid;grid-auto-flow: column; align-items: center;width: 100%;">
+                <a href="#" class="no-decoration font-poppins text-logo weight-semibold text-primary" style="display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="stethoscope"></i>
+                    Doctor's Clinic
+                </a>
+                <ul class="nav-links" style="display: flex; list-style: none; gap: 32px; margin-left: auto; padding: 0;">
+                    <li><a href="#home" class="no-decoration text-secondary weight-regular text-body">Home</a></li>
+                    <li><a href="#services" class="no-decoration text-secondary weight-regular text-body">Services</a></li>
+                    <li><a href="" class="bg-blue text-white weight-medium text-body no-decoration" style="padding: 12px 24px; border-radius: 8px;">Log In</a></li>
+                    <li><a href="" class="text-secondary weight-medium text-body no-decoration" style="background: transparent; padding: 12px 24px; border: 1px solid #666666; border-radius: 8px;">Register</a></li>
+                </ul>
+            </nav>
+    </header>
+
+    <section class="bg-hero" style="padding: 64px 0;" id="home">
+        <div style="max-width: 1140px; margin: 0 auto; padding: 0 120px;">
+            <div class="main-content" style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+                <div>
+                    <h1 class="font-poppins text-hero weight-semibold text-primary" style="line-height: 1.2; margin-bottom: 24px;">Quality Care for Your Health</h1>
+                    <p class="text-large text-secondary" style="margin-bottom: 32px; line-height: 1.6;">Our clinic provides the best medical services for you and your family.</p>
+                    <a href="#" class="bg-blue text-white weight-medium text-body no-decoration" style="padding: 12px 24px; border-radius: 8px; display: inline-block;">Book Appointment</a>
+                </div>
+                <div class="" style="display: grid; place-items: center;">
+                    <div style="width: 100%; max-width: 400px; height: 400px; display: grid; place-items: center; background: gray; border-radius: 20%;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-white" style="padding: 80px 120px;" id="services">
+            <h2 class="heading">Our Services</h2>
+            <div class="services-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px;">
+                <div class="bg-white text-center" style="padding: 32px; border-radius: 12px; box-shadow: 0 2px 3px black">
+                    <div class="bg-card" style="width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <i data-lucide="clipboard-list" class="text-blue" style="width: 32px; height: 32px;"></i>
+                    </div>
+                    <h3 class="font-poppins text-h2 weight-medium text-primary" style="margin-bottom: 16px;">Primary Care</h3>
+                    <p class="text-secondary text-body" style="line-height: 1.6;">Provide doctor early care or cutlanes.</p>
+                </div>
+                <div class="bg-white text-center" style="padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px black">
+                    <div class="bg-card" style="width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <i data-lucide="stethoscope" class="text-blue" style="width: 32px; height: 32px;"></i>
+                    </div>
+                    <h3 class="font-poppins text-h2 weight-medium text-primary" style="margin-bottom: 16px;">Pediatrics</h3>
+                    <p class="text-secondary text-body" style="line-height: 1.6;">Provide careare with kids in-names.</p>
+                </div>
+                <div class="bg-white text-center" style="padding: 32px; border-radius: 12px; box-shadow: 0 4px 6px black">
+                    <div class="bg-card" style="width: 64px; height: 64px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px;">
+                        <i data-lucide="plus-circle" class="text-blue" style="width: 32px; height: 32px;"></i>
+                    </div>
+                    <h3 class="font-poppins text-h2 weight-medium text-primary" style="margin-bottom: 16px;">Specialty Care</h3>
+                    <p class="text-secondary text-body" style="line-height: 1.6;">Provide accarecare and curiset-car.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-light" style="padding: 80px 120px;">
+            <h2 class="heading">What Our Patients Are Saying</h2>
+            <div class="testimonial-card bg-white text-center" style="padding: 50px; border-radius: 10px; box-shadow: 0 2px 2px black; max-width: 600px; margin: 0 auto;">
+                <i data-lucide="quote" class="text-blue" style="width: 50px; height: 50px; margin-bottom: 25px;"></i>
+                <p class="text-large text-primary" style="line-height: 1.6; margin-bottom: 24px;">Excellent service and wonderful staff. I always feel well taken care of.</p>
+                <p class="weight-medium text-secondary">John D.</p>
+            </div>
+    </section>
+
+    <section class="bg-white" style="padding: 80px 120px;">
+            <h2 class="heading">Clinic Hours</h2>
+            <div class="hours-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 48px; margin-top: 48px;">
+                <div class="bg-light" style="padding: 32px; border-radius: 12px;">
+                    <h3 class="font-poppins text-h2 weight-medium text-primary" style="margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                        <i data-lucide="clock" style="width: 24px; height: 24px;"></i>
+                        Clinic Hours
+                    </h3>
+                    <ul style="list-style: none;">
+                        <li class="text-secondary" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #E0E0E0;">
+                            <span>Monday - Friday</span>
+                            <span>8:00 AM - 6:00 PM</span>
+                        </li>
+                        <li class="text-secondary" style="display: flex; justify-content: space-between; padding: 12px 0;">
+                            <span>Saturday</span>
+                            <span>9:00 AM - 1:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="bg-light" style="padding: 32px; border-radius: 12px;">
+                    <h3 class="font-poppins text-h2 weight-medium text-primary" style="margin-bottom: 24px; display: flex; align-items: center; gap: 12px;">
+                        <i data-lucide="calendar" style="width: 24px; height: 24px;"></i>
+                        Clinic Hours
+                    </h3>
+                    <ul style="list-style: none;">
+                        <li class="text-secondary" style="display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid #E0E0E0;">
+                            <span>Monday - Friday</span>
+                            <span>6:00 AM - 5:00 PM</span>
+                        </li>
+                        <li class="text-secondary" style="display: flex; justify-content: space-between; padding: 12px 0;">
+                            <span>Saturday</span>
+                            <span>9:00 AM - 1:00 PM</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+    </section>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

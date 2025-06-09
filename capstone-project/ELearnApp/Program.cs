@@ -1,15 +1,26 @@
 using Scalar.AspNetCore;
-using HrSystem.Context;
-using HrSystem.Hubs;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using HrSystem.Services;
+using Serilog;
 using Microsoft.OpenApi.Models;
 
+using ELearnApp.Services;
+using ELearnApp.Contexts;
+
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
+    .WriteTo.Console()
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+Log.Debug("Starting up the application.");
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddSerilog();
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
@@ -19,7 +30,7 @@ builder.Services.AddOpenApi(options =>
     {
         document.Components ??= new();
         document.Components.SecuritySchemes ??= new Dictionary<string, Microsoft.OpenApi.Models.OpenApiSecurityScheme>();
-        
+
         document.Components.SecuritySchemes["BearerAuth"] = new Microsoft.OpenApi.Models.OpenApiSecurityScheme
         {
             Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
@@ -62,7 +73,7 @@ builder.Services.AddControllers().AddJsonOptions(options =>
     options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
     options.JsonSerializerOptions.WriteIndented = true;
 });
-builder.Services.AddDbContext<HrContext>(options =>
+builder.Services.AddDbContext<ElearnContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
@@ -70,7 +81,6 @@ builder.Services.AddDbContext<HrContext>(options =>
 // Add services
 builder.Services.AddScoped<TokenService>();
 
-// Add SignalR
 builder.Services.AddSignalR();
 
 // Add JWT Authentication
@@ -83,7 +93,20 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"] ?? ""))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"]))
+        };
+        options.Events = new JwtBearerEvents
+        {
+            OnAuthenticationFailed = context =>
+            {
+                Console.WriteLine($"Authentication failed: {context.Exception}");
+                return Task.CompletedTask;
+            },
+            OnTokenValidated = context =>
+            {
+                Console.WriteLine("Token validated successfully");
+                return Task.CompletedTask;
+            }
         };
     });
 
@@ -91,9 +114,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -103,12 +123,14 @@ if (app.Environment.IsDevelopment())
         .AddPreferredSecuritySchemes("BearerAuth")
         .AddHttpAuthentication("BearerAuth", auth =>
         {
-            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiJyYW0iLCJlbWFpbCI6InJhbUBnbWFpbC5jb20iLCJyb2xlIjoiSFIiLCJuYmYiOjE3NDkxMjQ2ODIsImV4cCI6MTc0OTIxMTA4MiwiaWF0IjoxNzQ5MTI0NjgyfQ.GMHshoRAxZuPLKUbYrgGDMzhsHvihduSLycbYbjmISY";
+            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJhbGEiLCJlbWFpbCI6ImJhbGFAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJuYmYiOjE3NDk0NDIwMjQsImV4cCI6MTc0OTUyODQyNCwiaWF0IjoxNzQ5NDQyMDI0fQ.u-3qwlF7SEQmngHDxs_ue-E0szTq0WioBFOm1YX7uiw";
         })
     );
 }
 
+app.UseAuthentication();
+app.UseAuthorization();
 app.UseHttpsRedirection();
-app.MapHub<NotificationHub>("/notoficationhub");
+// app.MapHub<NotificationHub>("/notoficationhub");
 app.MapControllers();
 app.Run();
