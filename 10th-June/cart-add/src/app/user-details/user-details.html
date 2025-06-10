@@ -1,0 +1,33 @@
+<div
+  class="user-details"
+  style="
+    background: black;
+    height: 100vh;
+    width: 100vw;
+    display: grid;
+    place-items: center;
+  "
+>
+  <div
+    class="cards"
+    style="
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      width: 90vw;
+      gap: 20px;
+    "
+  >
+    @for (user of users; track user) {
+    <div
+      class="user-card"
+      style="background: wheat; display: flex; padding: 10px"
+    >
+      <div class="user-name">{{ user.name }}</div>
+      <div class="end" style="display: flex; justify-content: space-between; gap: 10px; margin-left: auto;">
+        <button class="user-likes" (click)="likeUser(user)">likes {{ user.likes }}</button>
+        <button class="user-dislikes" (click)="dislikeUser(user)">dislikes {{ user.dislikes }}</button>
+      </div>
+    </div>
+    }
+  </div>
+</div>

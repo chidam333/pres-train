@@ -1,0 +1,29 @@
+<nav style="height: 10vh; background: rgb(245, 189, 86); color: black; display: flex; align-items: center; padding: 0 20px;">
+    <h1 style="font-size: 1.5rem;">My Store</h1>
+    <button style="margin-left: auto; padding: 10px 20px; background: black; color: white; border: none; border-radius: 5px; position:relative;">
+        <div class="badge" style="position: absolute; border-radius: 10px; background: red; color: white; top: -10%; left: -10%; padding: 5px;">{{ badgeCount }}</div>
+        Cart
+    </button>
+</nav>
+<div style="height: 90vh; background: black; display: grid; place-items: center;">
+    <div style="display: grid; width: 90vw; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px;">
+        <div style="padding: 10px; background: wheat; display: grid; gap: 10px; border-radius: 7px;" class="card1">
+            <div class="img" style="display: grid; place-items: center;">
+                <img src="https://hammeronline.in/cdn/shop/files/Hammerglidebluetoothcallingsmartwatch_1.webp?v=1694851875" height="300px" alt="" srcset="">
+            </div>
+            <div class="add-to-cart" style="display: grid; place-items: center; cursor: pointer;"><button (click)="increaseBadgeCount()">Add to Cart</button></div>
+        </div>
+        <div style="padding: 10px; background: wheat; display: grid; gap: 10px; border-radius: 7px;" class="card2">
+            <div class="img" style="display: grid; place-items: center;">
+                <img src="https://media-ik.croma.com/prod/https://media.croma.com/image/upload/v1747748526/Croma%20Assets/Communication/Wearable%20Devices/Images/309465_0_stnogk.png" height="300px" alt="" srcset="">
+            </div>
+            <div class="add-to-cart" style="display: grid; place-items: center; cursor: pointer;"><button (click)="increaseBadgeCount()">Add to Cart</button></div>
+        </div>
+        <div style="padding: 10px; background: wheat; display: grid; gap: 10px; border-radius: 7px;" class="card3">
+            <div class="img" style="display: grid; place-items: center;">
+                <img src="https://www.aptronixindia.com/media/catalog/product/cache/31f0162e6f7d821d2237f39577122a8a/a/p/apple_watch_ultra_2_49mm_black_titanium_alpine_loop_dark_green_.png" height="300px" alt="" srcset="">
+            </div>
+            <div class="add-to-cart" style="display: grid; place-items: center; cursor: pointer;"><button (click)="increaseBadgeCount()">Add to Cart</button></div>
+        </div>
+    </div>
+</div>

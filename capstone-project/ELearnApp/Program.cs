@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 
 using ELearnApp.Services;
 using ELearnApp.Contexts;
+using ELearnApp.Repositories;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
@@ -81,6 +82,16 @@ builder.Services.AddDbContext<ElearnContext>(options =>
 // Add services
 builder.Services.AddScoped<TokenService>();
 
+// Add repositories
+builder.Services.AddScoped<UserRepository>();
+builder.Services.AddScoped<CourseRepository>();
+builder.Services.AddScoped<EnrollmentRepository>();
+
+// Add services
+builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<CourseService>();
+builder.Services.AddScoped<EnrollmentService>();
+
 builder.Services.AddSignalR();
 
 // Add JWT Authentication
@@ -123,7 +134,7 @@ if (app.Environment.IsDevelopment())
         .AddPreferredSecuritySchemes("BearerAuth")
         .AddHttpAuthentication("BearerAuth", auth =>
         {
-            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImJhbGEiLCJlbWFpbCI6ImJhbGFAZ21haWwuY29tIiwicm9sZSI6InN0dWRlbnQiLCJuYmYiOjE3NDk0NDIwMjQsImV4cCI6MTc0OTUyODQyNCwiaWF0IjoxNzQ5NDQyMDI0fQ.u-3qwlF7SEQmngHDxs_ue-E0szTq0WioBFOm1YX7uiw";
+            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImkxIiwiZW1haWwiOiJpMUBnbWFpbC5jb20iLCJyb2xlIjoiaW5zdHJ1Y3RvciIsIm5iZiI6MTc0OTU2Mzk1MiwiZXhwIjoxNzQ5NjUwMzUyLCJpYXQiOjE3NDk1NjM5NTJ9.ccW-3s67vxSsU0R-K76HVSS2fafzYWPOSDNx3XnKUtY";
         })
     );
 }

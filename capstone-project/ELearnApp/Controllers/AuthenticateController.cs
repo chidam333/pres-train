@@ -14,102 +14,42 @@ namespace ELearnApp.Controllers;
 [Route("api/auth")]
 public class AuthenticateController : ControllerBase
 {
-    public TokenService _tokenService;
-    public ElearnContext elearnContext;
-    public AuthenticateController(TokenService tokenService, ElearnContext context)
+    private readonly AuthService _authService;
+    
+    public AuthenticateController(AuthService authService)
     {
-        _tokenService = tokenService;
-        elearnContext = context;
+        _authService = authService;
     }
 
     [HttpPost("login")]
     public async Task<IActionResult> Login([FromBody] CredentialsDTO cred)
     {
-        if (cred == null || string.IsNullOrEmpty(cred.Email) || string.IsNullOrEmpty(cred.Password))
+        var result = await _authService.LoginAsync(cred);
+        
+        if (!result.Success)
         {
-            return BadRequest("Invalid credentials.");
+            if (result.Message == "User not found.")
+                return NotFound(result.Message);
+            if (result.Message == "Invalid password.")
+                return Unauthorized(result.Message);
+            return BadRequest(result.Message);
         }
-        var user = await elearnContext.Users.Include(u => u.UserRoles).ThenInclude(ur => ur.Role).SingleOrDefaultAsync(u => u.Email == cred.Email);
-        if (user == null)
-        {
-            return NotFound("User not found.");
-        }
-        if (!BCrypt.Net.BCrypt.Verify(cred.Password, user.PasswordHash))
-        {
-            return Unauthorized("Invalid password.");
-        }
-        var token = await _tokenService.GenerateToken(user);
-        return Ok(new { Token = token, Message = "Login Successful ! " });
+
+        return Ok(new { Token = result.Token, Message = result.Message });
     }
 
     [HttpPost("register")]
     public async Task<IActionResult> Register([FromBody] UserDto user)
     {
-        if (user == null || string.IsNullOrEmpty(user.Email) || string.IsNullOrEmpty(user.Password))
+        var result = await _authService.RegisterAsync(user);
+        
+        if (!result.Success)
         {
-            return BadRequest("Invalid user data.");
+            if (result.Message == "User with this email already exists.")
+                return Conflict(result.Message);
+            return BadRequest(result.Message);
         }
-        var existingUser = await elearnContext.Users.SingleOrDefaultAsync(u => u.Email == user.Email);
-        if (existingUser != null)
-        {
-            return Conflict("User with this email already exists.");
-        }
-        var passwordHash = BCrypt.Net.BCrypt.HashPassword(user.Password);
-        User entryRecord = new User
-        {
-            Email = user.Email,
-            Name = user.Name,
-            PasswordHash = passwordHash
-        };
-        elearnContext.Users.Add(entryRecord);
-        switch (user.Role?.ToLower())
-        {
-            case "admin":
-                var adminRole = elearnContext.Roles.FirstOrDefault(r => r.RoleName == "admin");
-                if (adminRole != null)
-                {
-                    elearnContext.UserRoles.Add(new UserRole
-                    {
-                        User = entryRecord,
-                        Role = adminRole
-                    });
-                }
-                break;
-            case "instructor":
-                var instructorRole = elearnContext.Roles.FirstOrDefault(r => r.RoleName == "instructor");
-                if (instructorRole != null)
-                {
-                    elearnContext.UserRoles.Add(new UserRole
-                    {
-                        User = entryRecord,
-                        Role = instructorRole
-                    });
-                }
-                break;
-            case "student":
-                var studentRole = elearnContext.Roles.FirstOrDefault(r => r.RoleName == "student");
-                if (studentRole != null)
-                {
-                    elearnContext.UserRoles.Add(new UserRole
-                    {
-                        User = entryRecord,
-                        Role = studentRole
-                    });
-                }
-                break;
-            default:
-                var defaultRole = elearnContext.Roles.FirstOrDefault(r => r.RoleName == "student");
-                if (defaultRole != null)
-                {
-                    elearnContext.UserRoles.Add(new UserRole
-                    {
-                        User = entryRecord,
-                        Role = defaultRole
-                    });
-                }
-                break;
-        }
-        await elearnContext.SaveChangesAsync();
+
         return Ok(user);
     }
     [HttpPost("aboutme")]

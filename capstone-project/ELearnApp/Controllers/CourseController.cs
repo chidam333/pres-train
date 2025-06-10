@@ -2,9 +2,11 @@ using System.Security.Claims;
 using ELearnApp.Contexts;
 using ELearnApp.Dtos;
 using ELearnApp.Models;
+using ELearnApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace ELearnApp.Controllers;
 
@@ -12,54 +14,54 @@ namespace ELearnApp.Controllers;
 [Route("/api/course")]
 public class CourseController : ControllerBase
 {
-    public ElearnContext _elearnContext;
-    public CourseController(ElearnContext elearnContext)
+    private readonly CourseService _courseService;
+    
+    public CourseController(CourseService courseService)
     {
-        _elearnContext = elearnContext;
+        _courseService = courseService;
     }
     [HttpPost]
-    [Authorize(Roles = "admin, instructor")]
+    [Authorize(Roles = "instructor")]
     public async Task<IActionResult> CreateCourse(CourseDtos courseDto)
     {
-        Console.WriteLine("Creating course...");
-        if (courseDto == null || string.IsNullOrEmpty(courseDto.Title) || string.IsNullOrEmpty(courseDto.Description))
-        {
-            return BadRequest("Invalid course data.");
-        }
+        Log.Information("Creating course with title: {Title}", courseDto.Title);
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
-        var userdb = _elearnContext.Users.SingleOrDefault(u => u.Email == userEmail);
-        if (userdb == null)
+        
+        if (string.IsNullOrEmpty(userEmail))
         {
-            return Unauthorized("User not found.");
+            return Unauthorized("User email not found in token.");
         }
-        var course = new Course
+        
+        var result = await _courseService.CreateCourseAsync(courseDto, userEmail);
+        
+        if (!result.Success)
         {
-            Title = courseDto.Title,
-            Description = courseDto.Description,
-            CreatedById = userdb.Id,
-            Thumbnail = courseDto.Thumbnail,
-        };
+            if (result.Message == "User not found.")
+                return Unauthorized(result.Message);
+            return BadRequest(result.Message);
+        }
 
-        await _elearnContext.Courses.AddAsync(course);
-        await _elearnContext.SaveChangesAsync();
-        return Ok(course);
+        return Ok(result.Course);
     }
     [HttpGet("{id}")]
     [Authorize]
     public async Task<IActionResult> GetCourse(int id)
     {
-        var course = await _elearnContext.Courses.FindAsync(id);
-        if (course == null)
+        var result = await _courseService.GetCourseAsync(id);
+        
+        if (!result.Success)
         {
             return NotFound();
         }
-        return Ok(course);
+        
+        return Ok(result.Course);
     }
+    
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetAllCourses()
     {
-        var courses = await _elearnContext.Courses.ToListAsync();
+        var courses = await _courseService.GetAllCoursesAsync();
         return Ok(courses);
     }
     [HttpPut("{id}")]
@@ -67,30 +69,37 @@ public class CourseController : ControllerBase
     public async Task<IActionResult> UpdateCourse(int id, CourseDtos courseDto)
     {
         var userEmail = User.FindFirstValue(ClaimTypes.Email);
-        if (courseDto == null || string.IsNullOrEmpty(courseDto.Title) || string.IsNullOrEmpty(courseDto.Description))
+        
+        var result = await _courseService.UpdateCourseAsync(id, courseDto, userEmail ?? string.Empty);
+        
+        if (!result.Success)
         {
-            return BadRequest("Invalid course data.");
+            if (result.Message == "Course not found." || result.Message == "Course author not found.")
+                return NotFound(result.Message);
+            if (result.Message == "You are not authorized to update this course.")
+                return Unauthorized(result.Message);
+            return BadRequest(result.Message);
         }
-        var course = await _elearnContext.Courses.Include(c => c.CreatedBy).FirstOrDefaultAsync(c => c.Id == id);
-        if (course == null)
+
+        return Ok(result.Course);
+    }
+    
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteCourse(int id)
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        
+        var result = await _courseService.DeleteCourseAsync(id, userEmail ?? string.Empty);
+        
+        if (!result.Success)
         {
-            return NotFound();
+            if (result.Message == "Course not found." || result.Message == "Course author not found.")
+                return NotFound(result.Message);
+            if (result.Message == "You are not authorized to delete this course.")
+                return Unauthorized(result.Message);
+            return BadRequest(result.Message);
         }
-        if (course.CreatedBy == null)
-        {
-            return NotFound("Course author not found.");
-        }
-        var courseAuthor = course.CreatedBy;
-        if (courseAuthor.Email != userEmail)
-        {
-            return Unauthorized("You are not authorized to update this course.");
-        }
-        course.Title = courseDto.Title;
-        course.Description = courseDto.Description;
-        course.Thumbnail = courseDto.Thumbnail;
-        course.UpdatedAt = DateTime.UtcNow;
-        _elearnContext.Courses.Update(course);
-        await _elearnContext.SaveChangesAsync();
-        return Ok(course);
+
+        return NoContent();
     }
 }
