@@ -625,3 +625,82 @@ System.ArgumentOutOfRangeException: Token a000000 is not valid in the scope of m
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
 2025-06-11 16:46:16.946 +05:30 [WRN] Failed to determine the https port for redirect.
 2025-06-11 16:49:02.403 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-11 23:15:50.281 +05:30 [INF] Application started successfully.
+2025-06-11 23:20:27.280 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-11 23:22:59.792 +05:30 [INF] Application started successfully.
+2025-06-11 23:23:01.107 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-11 23:31:57.505 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ELearnApp.Hubs.NotifyHub' while attempting to activate 'NotifyController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method15(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-11 23:33:06.402 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ELearnApp.Hubs.NotifyHub' while attempting to activate 'NotifyController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method23(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-11 23:33:46.011 +05:30 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ELearnApp.Hubs.NotifyHub' while attempting to activate 'NotifyController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method23(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.RateLimiting.RateLimitingMiddleware.InvokeInternal(HttpContext context, EnableRateLimitingAttribute enableRateLimitingAttribute)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-06-11 23:34:12.489 +05:30 [INF] Application started successfully.
+2025-06-11 23:34:13.280 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-11 23:36:59.787 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:37:27.502 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:37:27.503 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:38:03.407 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:41:24.975 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:41:24.976 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:41:59.617 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:41:59.617 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:42:14.754 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:42:14.755 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:48:53.424 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:48:53.426 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)
+2025-06-11 23:49:05.702 +05:30 [INF] Sending notification to user user1: This is a test notification
+2025-06-11 23:49:05.702 +05:30 [ERR] Error sending notification to user user1
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at ELearnApp.Hubs.NotifyHub.SendNotification(String user, String message)

@@ -4,13 +4,13 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
-using Microsoft.OpenApi.Models;
 using System.Threading.RateLimiting;
 
 using ELearnApp.Services;
 using ELearnApp.Contexts;
 using ELearnApp.Repositories;
 using ELearnApp.Models;
+using ELearnApp.Hubs;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
@@ -109,6 +109,15 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
+builder.Services.AddCors(options=>{
+    options.AddDefaultPolicy(policy=>{
+        policy.WithOrigins("http://127.0.0.1:5500")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials();
+    });
+});
+
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -149,7 +158,7 @@ if (app.Environment.IsDevelopment())
         .AddPreferredSecuritySchemes("BearerAuth")
         .AddHttpAuthentication("BearerAuth", auth =>
         {
-            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImkxIiwiZW1haWwiOiJpMUBnbWFpbC5jb20iLCJyb2xlIjoiaW5zdHJ1Y3RvciIsIm5iZiI6MTc0OTU2Mzk1MiwiZXhwIjoxNzQ5NjUwMzUyLCJpYXQiOjE3NDk1NjM5NTJ9.ccW-3s67vxSsU0R-K76HVSS2fafzYWPOSDNx3XnKUtY";
+            auth.Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6ImkxIiwiZW1haWwiOiJpMUBnbWFpbC5jb20iLCJyb2xlIjoiaW5zdHJ1Y3RvciIsIm5iZiI6MTc0OTY2NDI2NywiZXhwIjoxNzQ5NzUwNjY3LCJpYXQiOjE3NDk2NjQyNjd9.4DunWj9Mq5oYuNl6RDEmIGbwDgTxN7ZnzKXYIcdI7Zs";
         })
     );
 }
@@ -158,6 +167,9 @@ app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();
+app.UseCors();
 // app.MapHub<NotificationHub>("/notoficationhub");
 app.MapControllers();
+app.MapHub<NotifyHub>("/notifyhub");
+Log.Information("Application started successfully.");
 app.Run();

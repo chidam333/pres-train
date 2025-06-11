@@ -4,17 +4,22 @@ using Microsoft.EntityFrameworkCore;
 using ELearnApp.Dtos;
 using ELearnApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System.Security.Claims;
+using ELearnApp.Hubs;
+using Serilog;
 
 [ApiController]
-[Route("/api/lesson")]
+[Route("/api/v1/lesson")]
 public class LessonController : ControllerBase
 {
     private readonly ElearnContext _elearnContext;
+    private readonly IHubContext<NotifyHub> _hubContext;
 
-    public LessonController(ElearnContext elearnContext)
+    public LessonController(ElearnContext elearnContext, IHubContext<NotifyHub> hubContext)
     {
         _elearnContext = elearnContext;
+        _hubContext = hubContext;
     }
 
     [HttpGet("{courseId}")]
@@ -64,9 +69,24 @@ public class LessonController : ControllerBase
             Description = lesson.Description,
             SequenceNo = lesson.SequenceNo,
         };
-        _elearnContext.Lessons.Add(newLesson);
-        await _elearnContext.SaveChangesAsync();
-
+        try
+        {
+            _elearnContext.Lessons.Add(newLesson);
+            await _elearnContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error creating new lesson.");
+            return StatusCode(500, "Internal server error while creating lesson.");
+        }
+        try
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveNotification", $"New lesson created: {newLesson.Title} in course {course.Title} by {userEmail}");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Error sending notification for new lesson creation.");
+        }
         return Ok(newLesson);
     }
 
@@ -101,10 +121,15 @@ public class LessonController : ControllerBase
         lesson.Description = lessonDto.Description;
         lesson.SequenceNo = lessonDto.SequenceNo;
         lesson.CourseId = lessonDto.CourseId;
-
-        _elearnContext.Lessons.Update(lesson);
-        await _elearnContext.SaveChangesAsync();
-
+        try
+        {
+            _elearnContext.Lessons.Update(lesson);
+            await _elearnContext.SaveChangesAsync();
+        }catch(Exception ex)
+        {
+            Log.Error(ex, "Error updating lesson.");
+            return StatusCode(500, "Internal server error while updating lesson.");
+        }
         return Ok(lesson);
     }
 

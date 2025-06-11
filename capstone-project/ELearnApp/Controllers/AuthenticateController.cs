@@ -1,9 +1,6 @@
-using ELearnApp.Contexts;
-using ELearnApp.Models;
 using ELearnApp.Dtos;
 using ELearnApp.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using Serilog;

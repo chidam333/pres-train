@@ -3,19 +3,23 @@ using ELearnApp.Contexts;
 using ELearnApp.Dtos;
 using ELearnApp.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using ELearnApp.Hubs;
 
 
 [ApiController]
-[Route("/api/material")]
+[Route("/api/v1/material")]
 public class MaterialController : ControllerBase
 {
     private readonly ElearnContext _elearnContext;
+    private readonly IHubContext<NotifyHub> _hubContext;
 
-    public MaterialController(ElearnContext elearnContext)
+    public MaterialController(ElearnContext elearnContext, IHubContext<NotifyHub> hubContext)
     {
         _elearnContext = elearnContext;
+        _hubContext = hubContext;
     }
 
     [HttpPost("upload")]
@@ -56,8 +60,23 @@ public class MaterialController : ControllerBase
             await materialDto.File.CopyToAsync(stream);
         }
         material.FilePath = filePath;
-        _elearnContext.Materials.Add(material);
-        await _elearnContext.SaveChangesAsync();
+        try
+        {
+            _elearnContext.Materials.Add(material);
+            await _elearnContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Internal server error: {ex.Message}");
+        }
+        try
+        {
+            await _hubContext.Clients.All.SendAsync("ReceiveNotification", $"New material uploaded: {material.Title} for lesson {lesson.Title} in course {lesson.Course.Title}");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(500, $"Error sending notification: {ex.Message}");
+        }
 
         return Ok(material);
     }

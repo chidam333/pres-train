@@ -1,15 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using ELearnApp.Contexts;
-using ELearnApp.Models;
 using ELearnApp.Dtos;
 using ELearnApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using Microsoft.EntityFrameworkCore;
 
 
 [ApiController]
-[Route("/api/enrollment")]
+[Route("/api/v1/enrollment")]
 public class EnrollmentController : ControllerBase
 {
     private readonly EnrollmentService _enrollmentService;

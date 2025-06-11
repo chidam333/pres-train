@@ -1,24 +1,26 @@
 using System.Security.Claims;
-using ELearnApp.Contexts;
 using ELearnApp.Dtos;
-using ELearnApp.Models;
 using ELearnApp.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Serilog;
+using Microsoft.AspNetCore.SignalR;
+using ELearnApp.Hubs;
 
 namespace ELearnApp.Controllers;
 
 [ApiController]
-[Route("/api/course")]
+[Route("/api/v1/course")]
 public class CourseController : ControllerBase
 {
     private readonly CourseService _courseService;
-    
-    public CourseController(CourseService courseService)
+    private readonly IHubContext<NotifyHub> _hubContext;
+
+    public CourseController(CourseService courseService, IHubContext<NotifyHub> hubContext)
     {
         _courseService = courseService;
+        _hubContext = hubContext;
+        Log.Information("CourseController initialized.");
     }
     [HttpPost]
     [Authorize(Roles = "instructor")]
@@ -31,7 +33,7 @@ public class CourseController : ControllerBase
         {
             return Unauthorized("User email not found in token.");
         }
-        
+
         var result = await _courseService.CreateCourseAsync(courseDto, userEmail);
         
         if (!result.Success)
@@ -40,6 +42,8 @@ public class CourseController : ControllerBase
                 return Unauthorized(result.Message);
             return BadRequest(result.Message);
         }
+
+        await _hubContext.Clients.All.SendAsync("ReceiveNotification", $"New course created: {courseDto.Title} by {userEmail}");
 
         return Ok(result.Course);
     }
