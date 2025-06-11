@@ -132,6 +132,6 @@ public class LessonController : ControllerBase
         }
         _elearnContext.Lessons.Remove(lesson);
         await _elearnContext.SaveChangesAsync();
-        return NoContent();
+        return Ok(new { Message = "Lesson deleted successfully." });
     }
 }

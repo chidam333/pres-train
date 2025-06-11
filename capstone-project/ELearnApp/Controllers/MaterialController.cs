@@ -19,8 +19,8 @@ public class MaterialController : ControllerBase
     }
 
     [HttpPost("upload")]
-    [Authorize(Roles = "Instructor")]
-    public async Task<IActionResult> UploadMaterial([FromForm] MaterialDto materialDto)
+    [Authorize(Roles = "instructor")]
+    public async Task<IActionResult> UploadMaterial(MaterialDto materialDto)
     {
         if (materialDto == null || string.IsNullOrWhiteSpace(materialDto.Title) || materialDto.LessonId <= 0 || materialDto.File == null)
         {
@@ -63,6 +63,7 @@ public class MaterialController : ControllerBase
     }
 
     [HttpGet("download/{filename}")]
+    [Authorize]
     public ActionResult GetMaterialByFilename(string filename)
     {
         var filePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles", filename);

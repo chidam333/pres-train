@@ -1,16 +1,17 @@
 using ELearnApp.Dtos;
 using ELearnApp.Models;
 using ELearnApp.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELearnApp.Services;
 
 public class EnrollmentService
 {
-    private readonly EnrollmentRepository _enrollmentRepository;
+    private readonly GenericRepository<UserCourse> _enrollmentRepository;
     private readonly UserRepository _userRepository;
-    private readonly CourseRepository _courseRepository;
+    private readonly GenericRepository<Course> _courseRepository;
 
-    public EnrollmentService(EnrollmentRepository enrollmentRepository, UserRepository userRepository, CourseRepository courseRepository)
+    public EnrollmentService(GenericRepository<UserCourse> enrollmentRepository, UserRepository userRepository, GenericRepository<Course> courseRepository)
     {
         _enrollmentRepository = enrollmentRepository;
         _userRepository = userRepository;
@@ -30,13 +31,13 @@ public class EnrollmentService
             return (false, null, "User not found.");
         }
 
-        var course = await _courseRepository.GetCourseByIdAsync(enrollmentDto.CourseId);
+        var course = await _courseRepository.GetByIdAsync(enrollmentDto.CourseId);
         if (course == null)
         {
             return (false, null, "Course not found.");
         }
 
-        if (await _enrollmentRepository.IsUserEnrolledAsync(user.Id, enrollmentDto.CourseId))
+        if (await _enrollmentRepository.AnyAsync(e => e.UserId == user.Id && e.CourseId == enrollmentDto.CourseId))
         {
             return (false, null, "User is already enrolled in this course.");
         }
@@ -47,7 +48,7 @@ public class EnrollmentService
             CourseId = enrollmentDto.CourseId,
         };
 
-        await _enrollmentRepository.CreateEnrollmentAsync(enrollment);
+        await _enrollmentRepository.AddAsync(enrollment);
         await _enrollmentRepository.SaveChangesAsync();
 
         return (true, enrollment, null);
@@ -66,13 +67,13 @@ public class EnrollmentService
             return (false, "User not found.");
         }
 
-        var enrollment = await _enrollmentRepository.GetEnrollmentAsync(user.Id, enrollmentDto.CourseId);
+        var enrollment = await _enrollmentRepository.GetSingleOrDefaultAsync(e => e.UserId == user.Id && e.CourseId == enrollmentDto.CourseId);
         if (enrollment == null)
         {
             return (false, "Enrollment not found.");
         }
 
-        await _enrollmentRepository.DeleteEnrollmentAsync(enrollment);
+        _enrollmentRepository.Remove(enrollment);
         await _enrollmentRepository.SaveChangesAsync();
 
         return (true, "Successfully unenrolled from the course.");
@@ -86,6 +87,9 @@ public class EnrollmentService
             return new List<UserCourse>();
         }
 
-        return await _enrollmentRepository.GetUserEnrollmentsAsync(user.Id);
+        return await _enrollmentRepository.Query()
+            .Where(uc => uc.UserId == user.Id)
+            .Include(uc => uc.Course)
+            .ToListAsync();
     }
 }

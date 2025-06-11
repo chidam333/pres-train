@@ -100,6 +100,6 @@ public class CourseController : ControllerBase
             return BadRequest(result.Message);
         }
 
-        return NoContent();
+        return Ok(new { Message = "Course deleted successfully." });
     }
 }

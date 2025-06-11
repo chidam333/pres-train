@@ -104,3 +104,5 @@ System.IO.IOException: Failed to bind to address http://127.0.0.1:5243: address 
 2025-06-10 23:03:56.967 +05:30 [INF] User claims: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name: i1, http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress: i1@gmail.com, http://schemas.microsoft.com/ws/2008/06/identity/claims/role: instructor, nbf: 1749563952, exp: 1749650352, iat: 1749563952
 2025-06-10 23:04:39.715 +05:30 [INF] Creating course with title: first lesson
 2025-06-10 23:08:47.068 +05:30 [INF] Creating course with title: ddsdaasd
+2025-06-10 23:34:30.096 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-10 23:59:51.011 +05:30 [WRN] Failed to determine the https port for redirect.

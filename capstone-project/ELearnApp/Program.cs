@@ -5,10 +5,12 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
 using Microsoft.OpenApi.Models;
+using System.Threading.RateLimiting;
 
 using ELearnApp.Services;
 using ELearnApp.Contexts;
 using ELearnApp.Repositories;
+using ELearnApp.Models;
 
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
@@ -84,8 +86,8 @@ builder.Services.AddScoped<TokenService>();
 
 // Add repositories
 builder.Services.AddScoped<UserRepository>();
-builder.Services.AddScoped<CourseRepository>();
-builder.Services.AddScoped<EnrollmentRepository>();
+builder.Services.AddScoped<GenericRepository<Course>>();
+builder.Services.AddScoped<GenericRepository<UserCourse>>();
 
 // Add services
 builder.Services.AddScoped<AuthService>();
@@ -93,6 +95,19 @@ builder.Services.AddScoped<CourseService>();
 builder.Services.AddScoped<EnrollmentService>();
 
 builder.Services.AddSignalR();
+builder.Services.AddRateLimiter(options =>
+{
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                PermitLimit = 10,
+                QueueLimit = 0,
+                Window = TimeSpan.FromMinutes(1)
+            }));
+});
 
 // Add JWT Authentication
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -104,7 +119,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuer = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"]))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Keys:JwtTokenKey"] ?? ""))
         };
         options.Events = new JwtBearerEvents
         {
@@ -139,6 +154,7 @@ if (app.Environment.IsDevelopment())
     );
 }
 
+app.UseRateLimiter();
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseHttpsRedirection();

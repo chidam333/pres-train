@@ -44,7 +44,7 @@ public class AuthService
             return (false, null, "Invalid user data.");
         }
 
-        if (await _userRepository.UserExistsAsync(userDto.Email))
+        if (await _userRepository.AnyAsync(u => u.Email == userDto.Email))
         {
             return (false, null, "User with this email already exists.");
         }
@@ -57,7 +57,7 @@ public class AuthService
             PasswordHash = passwordHash
         };
 
-        await _userRepository.CreateUserAsync(user);
+        await _userRepository.AddAsync(user);
 
         var roleName = string.IsNullOrEmpty(userDto.Role) ? "student" : userDto.Role.ToLower();
         var role = await _userRepository.GetRoleByNameAsync(roleName);

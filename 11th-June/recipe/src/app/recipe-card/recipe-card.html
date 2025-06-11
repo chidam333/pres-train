@@ -1,0 +1,25 @@
+<div class="card">
+  <div class="card-body">
+    <h5>{{ recipe?.name }}</h5>
+
+    <div>
+      <p class="mb-2">
+        <strong>Cuisine:</strong>
+        <span class="badge bg-primary ms-1">{{ recipe?.cuisine }}</span>
+      </p>
+
+      <p class="mb-2">
+        <strong>Cooking Time:</strong>
+        <span class="text-muted ms-1">{{ recipe?.cookTimeMinutes }} minutes</span>
+        <i class="bi bi-clock ms-2"></i>
+      </p>
+
+      <div class="mb-2">
+        <strong>Ingredients:</strong>
+        <small class="text-muted d-block">
+          {{ recipe?.ingredients?.join(", ") }}
+        </small>
+      </div>
+    </div>
+  </div>
+</div>

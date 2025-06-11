@@ -1,15 +1,16 @@
 using ELearnApp.Dtos;
 using ELearnApp.Models;
 using ELearnApp.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace ELearnApp.Services;
 
 public class CourseService
 {
-    private readonly CourseRepository _courseRepository;
+    private readonly GenericRepository<Course> _courseRepository;
     private readonly UserRepository _userRepository;
 
-    public CourseService(CourseRepository courseRepository, UserRepository userRepository)
+    public CourseService(GenericRepository<Course> courseRepository, UserRepository userRepository)
     {
         _courseRepository = courseRepository;
         _userRepository = userRepository;
@@ -36,7 +37,7 @@ public class CourseService
             Thumbnail = courseDto.Thumbnail,
         };
 
-        await _courseRepository.CreateCourseAsync(course);
+        await _courseRepository.AddAsync(course);
         await _courseRepository.SaveChangesAsync();
 
         return (true, course, null);
@@ -44,7 +45,7 @@ public class CourseService
 
     public async Task<(bool Success, Course? Course, string? Message)> GetCourseAsync(int id)
     {
-        var course = await _courseRepository.GetCourseByIdAsync(id);
+        var course = await _courseRepository.GetByIdAsync(id);
         if (course == null)
         {
             return (false, null, "Course not found.");
@@ -55,7 +56,7 @@ public class CourseService
 
     public async Task<List<Course>> GetAllCoursesAsync()
     {
-        return await _courseRepository.GetAllCoursesAsync();
+        return (await _courseRepository.GetAllAsync()).ToList();
     }
 
     public async Task<(bool Success, Course? Course, string? Message)> UpdateCourseAsync(int id, CourseDtos courseDto, string userEmail)
@@ -65,7 +66,9 @@ public class CourseService
             return (false, null, "Invalid course data.");
         }
 
-        var course = await _courseRepository.GetCourseWithCreatorAsync(id);
+        var course = await _courseRepository.Query()
+            .Include(c => c.CreatedBy)
+            .FirstOrDefaultAsync(c => c.Id == id);
         if (course == null)
         {
             return (false, null, "Course not found.");
@@ -86,7 +89,7 @@ public class CourseService
         course.Thumbnail = courseDto.Thumbnail;
         course.UpdatedAt = DateTime.UtcNow;
 
-        await _courseRepository.UpdateCourseAsync(course);
+        _courseRepository.Update(course);
         await _courseRepository.SaveChangesAsync();
 
         return (true, course, null);
@@ -94,7 +97,9 @@ public class CourseService
 
     public async Task<(bool Success, string? Message)> DeleteCourseAsync(int id, string userEmail)
     {
-        var course = await _courseRepository.GetCourseWithCreatorAsync(id);
+        var course = await _courseRepository.Query()
+            .Include(c => c.CreatedBy)
+            .FirstOrDefaultAsync(c => c.Id == id);
         if (course == null)
         {
             return (false, "Course not found.");
@@ -110,7 +115,7 @@ public class CourseService
             return (false, "You are not authorized to delete this course.");
         }
 
-        await _courseRepository.DeleteCourseAsync(course);
+        _courseRepository.Remove(course);
         await _courseRepository.SaveChangesAsync();
 
         return (true, null);

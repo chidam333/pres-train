@@ -18,16 +18,6 @@ public class UserRepository : GenericRepository<User>
             .SingleOrDefaultAsync(u => u.Email == email);
     }
 
-    public async Task<bool> UserExistsAsync(string email)
-    {
-        return await AnyAsync(u => u.Email == email);
-    }
-
-    public async Task<User> CreateUserAsync(User user)
-    {
-        return await AddAsync(user);
-    }
-
     public async Task<Role?> GetRoleByNameAsync(string roleName)
     {
         return await _context.Roles.FirstOrDefaultAsync(r => r.RoleName == roleName);
