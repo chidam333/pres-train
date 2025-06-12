@@ -1,0 +1,42 @@
+<html>
+    <head></head>
+    <body>
+        <button onclick="await_test()">fetch and await</button>
+        <button onclick="promise_resolve()">fetch and then</button>
+        <script>
+            async function await_test() {
+                let a = new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve([
+                            { id: 1, name: "ram" },
+                            { id: 2, name: "shyam" },
+                            { id: 3, name: "gopal" },
+                        ]);
+                    }, 2000);
+                });
+                console.log("this is await test");
+                let resolved = await a;
+                let element = document.createElement("div");
+                element.innerHTML = "<div>" + "await : " + JSON.stringify(resolved) + "</div>";
+                document.body.appendChild(element);
+            }
+            function promise_resolve() {
+                let a = new Promise((resolve) => {
+                    setTimeout(() => {
+                        resolve([
+                            { id: 1, name: "ram" },
+                            { id: 2, name: "shyam" },
+                            { id: 3, name: "gopal" },
+                        ]);
+                    }, 2000);
+                });
+                console.log("this is promise resolution");
+                let element = document.createElement("div");
+                a.then((msg) => {
+                    element.innerHTML = "<div>" + "then : " + JSON.stringify(msg) + "</div>";
+                });
+                document.body.append(element);
+            }
+        </script>
+    </body>
+</html>

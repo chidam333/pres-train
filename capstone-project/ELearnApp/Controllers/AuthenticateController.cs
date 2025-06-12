@@ -8,7 +8,7 @@ using Serilog;
 namespace ELearnApp.Controllers;
 
 [ApiController]
-[Route("api/auth")]
+[Route("api/v1/auth")]
 public class AuthenticateController : ControllerBase
 {
     private readonly AuthService _authService;

@@ -23,10 +23,11 @@
                 div.innerHTML =  message;
                 notifications.appendChild(div);
             });
-            setTimeout(() => {
+            setTimeout(async () => {
                 console.log("Starting connection...");
                 try {
-                    connection.start();
+                    let response = await connection.start();
+                    console.log("Connection started", response);
                     status.textContent = "Connected";
                     status.style.background = "green";
                 } catch (err) {

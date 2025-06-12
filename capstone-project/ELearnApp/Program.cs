@@ -139,7 +139,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             },
             OnTokenValidated = context =>
             {
-                Console.WriteLine("Token validated successfully");
+                Console.WriteLine($"Token validated successfully: {context.SecurityToken}");
                 return Task.CompletedTask;
             }
         };
