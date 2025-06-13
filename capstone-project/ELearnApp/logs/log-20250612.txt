@@ -68,3 +68,6 @@ System.InvalidOperationException: Multiple constructors accepting all given argu
 2025-06-12 12:54:20.893 +05:30 [WRN] Failed to determine the https port for redirect.
 2025-06-12 12:55:47.717 +05:30 [INF] CourseController initialized.
 2025-06-12 12:55:47.755 +05:30 [INF] Creating course with title: System design v3
+2025-06-12 15:34:51.141 +05:30 [INF] Application started successfully.
+2025-06-12 15:44:45.591 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-12 15:47:44.863 +05:30 [INF] User claims: http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name: i1, http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress: i1@gmail.com, http://schemas.microsoft.com/ws/2008/06/identity/claims/role: instructor, nbf: 1749664267, exp: 1749750667, iat: 1749664267
