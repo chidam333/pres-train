@@ -1,0 +1,52 @@
+<div
+  class="state"
+  style="width: 100vw; height: 100vh; background: rgb(250, 239, 221)"
+>
+  <h1 style="text-align: center; padding: 10px 0px; color: brown">
+    search products
+  </h1>
+  <app-search-bar [loading]="loading" [products]="products" />
+  <div
+    class="products"
+    style="
+      padding: 5vh;
+      height: 80vh;
+      overflow: scroll;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    "
+  >
+    @if (loading()) {
+    <div class="loading" style="text-align: center; padding: 20px">
+      <p>Loading...</p>
+    </div>
+    } @if (products().length === 0 && !loading()) {
+    <div class="no-products" style="text-align: center; padding: 20px">
+      <p>No products found</p>
+    </div>
+    } @for(product of products(); track product.id) {
+    <div
+      class="product"
+      style="
+        height: 400px;
+        margin: 10px;
+        display: inline-block;
+        border: 1px solid brown;
+        border-radius: 4px;
+        background: rgb(248, 221, 186);
+      "
+    >
+      <div class="img-cover" style="display: grid; place-items: center">
+        <img
+          [src]="product.thumbnail"
+          alt="{{ product.title }}"
+          style="height: 270px"
+        />
+      </div>
+      <h3 style="text-align: center">{{ product.title }}</h3>
+      <p style="text-align: center; color: brown">${{ product.description }}</p>
+      <p style="text-align: center; color: brown">${{ product.price }}</p>
+    </div>
+    }
+  </div>
+</div>
