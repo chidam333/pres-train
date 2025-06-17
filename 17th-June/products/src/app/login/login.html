@@ -1,0 +1,35 @@
+<div class="login-container">
+  <h3>Authentication Status</h3>
+  
+  <div class="radio-group">
+    <div class="radio-option">
+      <input 
+        type="radio" 
+        id="login" 
+        name="auth" 
+        [value]="true"
+        [checked]="isTrue()"
+        (change)="setLoginStatus(true)"
+      />
+      <label for="login">Login</label>
+    </div>
+    
+    <div class="radio-option">
+      <input 
+        type="radio" 
+        id="logout" 
+        name="auth" 
+        [value]="false"
+        [checked]="!isTrue()"
+        (change)="setLoginStatus(false)"
+      />
+      <label for="logout">Logout</label>
+    </div>
+  </div>
+  
+  <div class="status">
+    Status: <span [class]="isTrue() ? 'logged-in' : 'logged-out'">
+      {{ isTrue() ? 'Logged In' : 'Logged Out' }}
+    </span>
+  </div>
+</div>
