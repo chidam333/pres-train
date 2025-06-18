@@ -1,0 +1,28 @@
+<div
+  class="full-page"
+  style="width: 100vw; height: 100vh; background: rgb(250, 239, 221)"
+>
+  <h1 style="text-align: center; padding: 10px 0px; color: brown; padding-top: 20vh;">
+    product details @if(product()!=null){ of {{product()!.title.toLowerCase()}} }
+  </h1>
+  @if(error()==null){
+  <div
+    class="imagecover"
+    style="width: 100vw; display: grid; place-items: center"
+  >
+    <img src="{{product()?.thumbnail}}" alt="{{product()?.title}}" />
+  </div>
+  <div class="data" style="display: grid; place-items: center">
+    <div class="full" style="width: 50vw; font-size: larger; font-size: 1.75rem; display: grid; gap: 4rem;">
+      <p>{{product()?.description?.toLowerCase()}}</p>
+      <p>Price : $ {{product()?.price}}</p>
+    </div>
+  </div>
+  }@else {
+    <div class="grid" style="display: grid;place-items: center;">
+    <div style="text-align: center; padding: 10px 0px; color: white; background: red; width: fit-content; padding: 10px;font-weight: bolder;font-size: 2rem;margin: 4rem;">
+      <p>{{error()?.toLowerCase()}}</p>
+    </div>
+    </div>
+  }
+</div>

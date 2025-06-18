@@ -1,0 +1,15 @@
+<div
+  class="dashboard"
+  style="min-height: 100vh; background: rgb(255, 233, 194); padding: 1rem"
+>
+  <h1 style="text-align: center">dashboard</h1>
+  <div class="board" style="display: grid; margin-top: 5vh">
+    <div class="grid1" style="display: flex">
+      <app-pie-gender style="width: 50%" [male]="male()" [female]="female()" />
+      <app-role-bar style="width: 50%" [roles]="roles()" />
+    </div>
+    <div class="grid2" style="display: grid; place-items: center">
+      <app-state-viz [state]="state"/>
+    </div>
+  </div>
+</div>

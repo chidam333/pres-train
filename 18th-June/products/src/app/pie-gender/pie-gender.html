@@ -1,0 +1,77 @@
+<div
+  style="
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  "
+>
+  <h3 style="margin: 0 0 20px 0; color: #2d3748; font-size: 1.5rem">
+    Gender Distribution
+  </h3>
+
+  <div
+    #pieChart
+    style="
+      min-height: 300px;
+      min-width: 300px;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    "
+  >
+    @if (totalCount === 0) {
+    <div style="text-align: center; color: #718096">
+      <div style="font-size: 48px">📊</div>
+      <div>No data to display</div>
+    </div>
+    }
+  </div>
+
+  <div style="margin-top: 20px; display: flex; gap: 30px; align-items: center">
+    <div style="display: flex; align-items: center; gap: 8px">
+      <div
+        style="
+          width: 16px;
+          height: 16px;
+          background-color: #4299e1;
+          border-radius: 50%;
+        "
+      ></div>
+      <span style="font-weight: 600; color: #2d3748"
+        >Male: {{ male }} ({{ malePercentage }}%)</span
+      >
+    </div>
+
+    <div style="display: flex; align-items: center; gap: 8px">
+      <div
+        style="
+          width: 16px;
+          height: 16px;
+          background-color: #ed64a6;
+          border-radius: 50%;
+        "
+      ></div>
+      <span style="font-weight: 600; color: #2d3748"
+        >Female: {{ female }} ({{ femalePercentage }}%)</span
+      >
+    </div>
+  </div>
+
+  <div
+    style="
+      margin-top: 15px;
+      padding: 10px 20px;
+      background-color: #f7fafc;
+      border-radius: 8px;
+      border: 1px solid #e2e8f0;
+    "
+  >
+    <span style="font-weight: 600; color: #4a5568"
+      >Total: {{ totalCount }}</span
+    >
+  </div>
+</div>

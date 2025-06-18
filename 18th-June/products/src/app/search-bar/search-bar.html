@@ -1,0 +1,19 @@
+<div class="search">
+  <form style="width: 100vw; display: grid; place-items: center">
+    <input
+      (input)="handleSearch()"
+      name="query"
+      [(ngModel)]="query"
+      type="text"
+      placeholder="Search for a product..."
+      style="
+        padding: 10px;
+        width: 300px;
+        border: 1px solid brown;
+        border-radius: 4px;
+        accent-color: brown;
+        background: rgb(248, 221, 186);
+      "
+    />
+  </form>
+</div>
