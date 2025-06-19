@@ -5,6 +5,7 @@ import { Login } from './login/login';
 import { AuthGuard } from './auth-gaurd';
 import { Dashboard } from './dashboard/dashboard';
 import { Filter } from './filter/filter';
+import { AddUserForm } from './add-user-form/add-user-form';
 
 export const routes: Routes = [
     {
@@ -37,5 +38,9 @@ export const routes: Routes = [
     {
         path: 'filter',
         component: Filter
+    },
+    {
+        path: 'add-user',
+        component: AddUserForm
     }
 ];

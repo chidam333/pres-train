@@ -1,0 +1,84 @@
+<form
+  [formGroup]="addForm"
+  style="
+    display: grid;
+    place-items: center;
+    height: 50vh;
+    background: rgb(241, 203, 132);
+    position: relative;
+  "
+>
+  <fieldset style="width: fit-content; padding: 2rem; border: black 2px solid">
+    <legend>Add User</legend>
+    <div class="grid" style="display: grid; place-items: center; gap: 6px">
+      <input
+        type="text"
+        placeholder="username"
+        style="min-width: 300px; padding: 4px"
+        formControlName="username"
+      />
+      <input
+        type="email"
+        placeholder="email"
+        style="min-width: 300px; padding: 4px"
+        formControlName="email"
+      />
+      <input
+        type="password"
+        placeholder="password"
+        style="min-width: 300px; padding: 4px"
+        formControlName="password"
+      />
+      <input
+        type="password"
+        placeholder="confirm password"
+        style="min-width: 300px; padding: 4px; margin-bottom: 2rem"
+        (input)="logConfirmPassword()"
+      />
+      <select
+        name="role"
+        id="role"
+        style="width: 100%; margin-bottom: 2rem"
+        formControlName="role"
+      >
+        <option value="admin">admin</option>
+        <option value="user">user</option>
+        <option value="guest">guest</option>
+      </select>
+      <button type="submit" (click)="handleSubmit()">Add User</button>
+    </div>
+  </fieldset>
+  
+  
+  @if(username.touched && username.errors) {
+      <div
+      class="toast"
+      style="
+      position: absolute;
+      bottom: 2vh;
+      right: 2vw;
+      background: red;
+      color: white;
+      padding: 4px;
+      "
+  >
+  <p> username errors : {{JSON.stringify(username.errors)}}</p>
+</div>
+}
+@if(password.touched && password.errors) {
+    <div
+    class="toast"
+    style="
+      position: absolute;
+      bottom: 2vh;
+      right: 2vw;
+      background: red;
+      color: white;
+      padding: 4px;
+      "
+  >
+  <p> password errors : {{JSON.stringify(password.errors)}}</p>
+</div>
+}
+</form>
+<app-users-list-s [users]="users"></app-users-list-s>

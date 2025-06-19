@@ -1,0 +1,14 @@
+<div style="height: 50vh; background: wheat;">
+  <h3>Users List</h3>
+  @if((users | async)?.length === 0) {
+    <p>No users found.</p>
+  } @else {
+    <ul>
+      @for(user of users | async; track user.username) {
+        <li>
+          <strong>{{user.username}}</strong> - {{user.email}} ({{user.role}})
+        </li>
+      }
+    </ul>
+  }
+</div>
