@@ -12,7 +12,10 @@ export interface ApiErrorResponse {
   providedIn: 'root'
 })
 export class AuthFetch {
-  async login(credentials: CredentialsDTO): Promise<LoginResponse> {
+  async login(credentials: CredentialsDTO): Promise<LoginResponse | {error: string}> {
+    await new Promise(resolve => setTimeout(() => {
+      resolve(null);
+    }, 1000));
     const response = await fetch(`${environment.apiUrl}/auth/login`, {
       method: 'POST',
       headers: {
@@ -23,10 +26,15 @@ export class AuthFetch {
 
     if (!response.ok) {
       const errorData = await response.text();
-      throw new Error(errorData || 'Login failed');
+      return {error: errorData || 'Login failed'};
     }
-
-    return await response.json();
+    const data: LoginResponse = await response.json();
+    if (data.token) {
+      this.storeToken(data.token);
+    } else {
+      return {error: 'Login failed: No token received'};
+    }
+    return await data;
   }
 
   async register(userDto: UserDto): Promise<UserDto | {error:string}> {

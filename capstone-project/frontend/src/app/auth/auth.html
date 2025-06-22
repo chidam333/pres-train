@@ -6,6 +6,6 @@
    @if(isLoginForm()){
     <app-login-form [forRole]="role()"/>
    } @else {
-    <app-sign-up-form [forRole]="role()"/>
+    <app-sign-up-form [forRole]="role()" [(isLoginForm)]="isLoginForm"/>
    }
 </div>
