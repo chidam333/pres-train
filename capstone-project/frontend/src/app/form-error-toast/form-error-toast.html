@@ -1,30 +1,15 @@
-@if(fields()?.errors?.['passwordMismatch']) {
-    <div class="toast toast-error text-white bg-red-600 border border-red-700 rounded-lg shadow-lg shadow-white px-8 py-4 mb-4 grid place-items-center relative">
-      <div class="toast-content">
-        <div class="toast-message">- {{fields()?.errors?.['passwordMismatch']}}.</div>
-      </div>
-    </div>
+@if(fields().errors?.['passwordMismatch']) {
+  <app-error-toast 
+    [title]="null" 
+    [message]="[fields().errors!['passwordMismatch']]">
+  </app-error-toast>
 }
-@for (control of controls(); track $index) { @if(control && control[1].invalid
-&& (control[1].dirty || control[1].touched)) {
-<div
-  class="toast toast-error text-white bg-red-600 border border-red-700 rounded-lg shadow-lg shadow-white px-8 py-4 mb-4 grid place-items-center relative"
->
-  <div class="toast-content">
-    @if(control[1].errors && control[1].errors['required']){
-    <div class="toast-message">- {{control[0]}} is required.</div>
-    } @if(control[1].errors && control[1].errors['email']){
-    <div class="toast-message">
-      - {{control[0]}} must be a valid email address.
-    </div>
-    } @if(control[1].errors && control[1].errors['minlength']){
-    <div class="toast-message">
-      - {{control[0]}} must be at least
-      {{control[1].errors['minlength'].requiredLength}} characters long.
-    </div>
-    } @if(control[1].errors && control[1].errors['message']){
-    <div class="toast-message">- {{control[1].errors['message']}}.</div>
-    }
-  </div>
-</div>
-} }
+
+@for (control of controls(); track $index) { 
+  @if(control && control[1].invalid && (control[1].dirty || control[1].touched)) {
+    <app-error-toast 
+      [title]="control[0]" 
+      [message]="getErrorMessages(control[1])">
+    </app-error-toast>
+  } 
+}
