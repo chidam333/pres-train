@@ -1,4 +1,14 @@
 <div class="course-page flex">
-  <app-instructor-nav class="w-[10vw] lg:w-[7vw] h-screen" [activeLink]="'course'" />
-  <div class="page lg:w-[90vw] w-[93vw]"></div>
+  <app-instructor-nav
+    class="w-[10vw] lg:w-[7vw] h-screen"
+    [activeLink]="'course'"
+  />
+  <div class="page lg:w-[93vw] w-[90vw] lg:px-30 px-10">
+    <div class="h-[10vh]">
+        <app-instructor-top-bar class="h-full w-full" title="Courses"/>
+    </div>
+    <div class="h-[90vh]">
+      <app-course-body/>
+    </div>
+  </div>
 </div>

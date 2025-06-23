@@ -1,0 +1,21 @@
+<nav class="h-[10vh] bg-black flex justify-between px-10 text-white">
+    <div class="title font-sans h-full grid place-items-center font-thin text-2xl">eureka labs</div>
+    <div class="exit grid place-items-center">
+        <button class="text-white underline px-4 py-2 rounded-lg cursor-pointer" (click)="exit()">exit</button>
+    </div>
+</nav>
+<div class="body h-[80vh] grid place-items-center">
+    @if(stepper()==0){
+        <input type="text" name="title" id="title" placeholder="Course Title..." class="w-[50%] px-4 py-2 border border-stone-900 rounded-lg focus:outline-none mb-4" [(ngModel)]="title">
+    }
+    @if(stepper()==1){
+        <input type="text" name="description" id="description" placeholder="Course Description..." class="w-[50%] px-4 py-2 border border-stone-900 rounded-lg focus:outline-none mb-4" [(ngModel)]="description">
+    }@if(stepper()==2){
+        <input type="text" name="tags" id="tags" placeholder="Course Thumbnail link..." class="w-[50%] px-4 py-2 border border-stone-900 rounded-lg focus:outline-none mb-4" [(ngModel)]="thumbnail">
+    }
+</div>
+<footer class="h-[10vh] bg-black flex justify-between">
+    <div class="place-items-center pl-6 grid">
+        <button class="bg-white text-black px-4 py-2 rounded-lg h-fit" (click)="continue($event)">continue</button>
+    </div>
+</footer>

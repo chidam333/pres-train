@@ -6,6 +6,7 @@ import { InstructorCourse } from './instructor-course/instructor-course';
 import { instructorGuard } from './guard/instructor-guard';
 import { InstructorStats } from './instructor-stats/instructor-stats';
 import { InstructorHelp } from './instructor-help/instructor-help';
+import { CreateCourse } from './create-course/create-course';
 export const routes: Routes = [
   { path: 'auth', component: Auth },
   { path: '', component: Home, canActivate: [studentGuard] },
@@ -22,6 +23,11 @@ export const routes: Routes = [
   {
     path: 'instructor/help',
     component: InstructorHelp,
+    canActivate: [instructorGuard],
+  },
+  {
+    path: 'create-course',
+    component: CreateCourse,
     canActivate: [instructorGuard],
   }
 ];
