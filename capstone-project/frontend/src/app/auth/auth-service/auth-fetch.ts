@@ -34,7 +34,7 @@ export class AuthFetch {
     } else {
       return {error: 'Login failed: No token received'};
     }
-    return await data;
+    return data;
   }
 
   async register(userDto: UserDto): Promise<UserDto | {error:string}> {
@@ -106,6 +106,7 @@ export class AuthFetch {
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
+      console.log({payload})
       const currentTime = Math.floor(Date.now() / 1000);
       return payload.exp > currentTime;
     } catch (error) {
@@ -118,27 +119,39 @@ export class AuthFetch {
     this.clearStoredToken();
   }
 
-  getUserRole(): string | null {
+  getUserRole(): string | {error:string} {
     const token = this.getStoredToken();
-    if (!token) return null;
+    if (!token) return {error: 'No token found'};
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.role || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] || null;
+      return payload.role || "";
     } catch (error) {
-      return null;
+      return {error: error instanceof Error ? error.message : 'Unknown error occurred'};
     }
   }
 
-  getUserEmail(): string | null {
+  getUserEmail(): string | {error:string} {
     const token = this.getStoredToken();
-    if (!token) return null;
+    if (!token) return {error: 'No token found'};
 
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.email || payload.sub || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || null;
+      return payload.email || "";
     } catch (error) {
-      return null;
+      return {error: error instanceof Error ? error.message : 'Unknown error occurred'};
     }
   }
+  
+  getUniqueName(): string | {error:string} {
+    const token = this.getStoredToken();
+    if (!token) return {error: 'No token found'};
+
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      return payload.unique_name || "";
+    } catch (error) {
+      return {error: error instanceof Error ? error.message : 'Unknown error occurred'};
+    }
+  } 
 }

@@ -6,7 +6,7 @@ import { FormErrorToast } from "../form-error-toast/form-error-toast";
 
 @Component({
   selector: 'app-auth',
-  imports: [NavBar, LoginForm, SignUpForm, FormErrorToast],
+  imports: [NavBar, LoginForm, SignUpForm],
   templateUrl: './auth.html',
   styleUrl: './auth.css',
 })
@@ -15,3 +15,4 @@ export class Auth {
   isLoginForm = signal(true);
   role = computed(() => (this.isStudent() ? 'student' : 'instructor'));
 }
+

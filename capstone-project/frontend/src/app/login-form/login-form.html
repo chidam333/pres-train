@@ -9,4 +9,7 @@
   @if (error()) {
     <app-error-toast [title]="'Login Error'" [message]="[error()!]" class="absolute bottom-2 right-4"/>
   }
+  @if (error_message()!=undefined && error_message() != null) {
+    <app-error-toast [title]="'Error occured'" [message]="[error_message()!]" class="absolute bottom-2 right-4"/>
+  }
 </form>
