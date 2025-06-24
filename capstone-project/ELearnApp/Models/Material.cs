@@ -8,6 +8,7 @@ public class Material
     public string? FilePath { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+    public int SequenceNo { get; set; }
     public int LessonId { get; set; }
     public Lesson? Lesson { get; set; }
     public string? FileType { get; set; } = "text/plain";

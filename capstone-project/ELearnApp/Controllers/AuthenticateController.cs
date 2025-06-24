@@ -53,11 +53,10 @@ public class AuthenticateController : ControllerBase
     [Authorize]
     public IActionResult AboutMe()
     {
-        Console.WriteLine("User is authenticated.");
-        var claims = User.Claims.ToList();
-        var name = User.Identity?.Name;
-        Console.WriteLine($"{name}");
-        Log.Information($"User claims: {string.Join(", ", claims.Select(c => $"{c.Type}: {c.Value}"))}");
-        return Ok(new { Message = $"Hello, {claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value}!" });
+        var email = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+        var name = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+        var role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+        
+        return Ok(new { Email = email, Name = name, Role = role });
     }
 }

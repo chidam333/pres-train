@@ -73,6 +73,24 @@ public class CourseController : ControllerBase
         var courses = await _courseService.GetAllCoursesAsync();
         return Ok(courses);
     }
+
+    [HttpGet("instructor")]
+    [Authorize(Roles = "instructor")]
+    public async Task<IActionResult> GetInstructorCourses()
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return Unauthorized("User email not found in token.");
+        }
+        var result = await _courseService.GetCoursesByInstructorAsync(userEmail);
+        if (result == null || !result.Any())
+        {
+            return NotFound("No courses found for this instructor.");
+        }
+        return Ok(result);
+    }
+
     [HttpPut("{id}")]
     [Authorize(Roles = "admin, instructor")]
     public async Task<IActionResult> UpdateCourse(int id, CourseDtos courseDto)
