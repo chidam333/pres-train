@@ -1,18 +1,18 @@
 <div class="bar bg-stone-950 text-white h-full w-full">
   <h1 class="font-sans font-thin text-4xl text-center pt-4">eureka</h1>
   <h3 class="font-sans font-thin text-center">labs</h3>
-  <div class="empty h-[10vh]"></div>
-  <div class="grid gap-16">
-    <a routerLink="/instructor/course" class="justify-center grid text-center p-2 {{activeLink() === 'course' ? 'bg-black invert' : ''}}">
-      <img class="h-[6vh] invert" src="course.svg" alt="course" />
+  <div class="empty h-[8vh]"></div>
+  <div class="grid gap-6">
+    <a routerLink="/instructor/course" class="place-items-center grid text-center p-2 {{activeLink() === 'course' ? 'bg-black invert' : ''}}">
+      <img class="h-[4vh] invert" src="course.svg" alt="course" />
       courses
     </a>
-    <a routerLink="/instructor/stats" class="justify-center grid text-center p-2 {{activeLink() === 'stats' ? 'bg-black invert' : ''}}">
-      <img class="h-[6vh] invert" src="stats.svg" alt="stat" />
-      stats
+    <a routerLink="/instructor/stats" class="place-items-center grid text-center p-2 {{activeLink() === 'stats' ? 'bg-black invert' : ''}}">
+      <img class="h-[4vh] invert" src="stats.svg" alt="stat" />
+      analytics
     </a>
-    <a routerLink="/instructor/help" class="justify-center text-center grid p-2 {{activeLink() === 'help' ? 'bg-black invert' : ''}}">
-      <img class="h-[6vh] invert" src="/question.svg" alt="help" />
+    <a routerLink="/instructor/help" class="place-items-center grid text-center p-2 {{activeLink() === 'help' ? 'bg-black invert' : ''}}">
+      <img class="h-[4vh] invert" src="/question.svg" alt="help" />
       help
     </a>
   </div>

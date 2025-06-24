@@ -12,5 +12,5 @@ export const studentGuard: CanActivateFn = (route, state) => {
   if(!authFetch.isAuthenticated()){
     return new RedirectCommand(router.parseUrl('/auth?error=not authorized as a student'));
   }
-  return authFetch.getUserRole() === 'student';
+  return authFetch.getUserRole() === 'student' ? true : new RedirectCommand(router.parseUrl('/auth?error=not authorized as a student'));
 };

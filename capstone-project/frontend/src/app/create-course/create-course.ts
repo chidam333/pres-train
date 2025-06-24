@@ -58,7 +58,7 @@ export class CreateCourse {
         }
         console.log('Course created successfully:', result);
         alert('Course created successfully!');
-        this.router.navigate(['/instructor/course/']);
+        this.router.navigate([`/instructor/manage/${result.id}`]);
       }
     }
   }

@@ -1,4 +1,40 @@
 <div class="h-[15vh] search flex justify-between py-12">
-    <input type="search" name="search" id="search" class="w-[40%]  px-4 py-1 border border-stone-900 rounded-lg focus:outline-none" placeholder="Search for courses...">
-    <a routerLink="/create-course" class="bg-black px-4 py-2 text-white font-bold font-sans rounded-lg cursor-pointer grid place-items-center">new course</a>
+  <input
+    type="search"
+    name="search"
+    id="search"
+    class="w-[40%] px-4 py-1 border border-stone-900 rounded-lg focus:outline-none"
+    placeholder="Search for courses..."
+    (input)="filterSearch($event)"
+  />
+  <a
+    routerLink="/create-course"
+    class="bg-black px-4 py-2 text-white font-bold font-sans rounded-lg cursor-pointer grid place-items-center"
+    >new course</a
+  >
+</div>
+<div class="h-[60vh] my-10 overflow-auto">
+  @for(course of courseList();track $index){
+  <div
+    class="card-list w-full h-[12vh] border-stone-400 border relative mb-2 flex"
+  >
+    <img src="{{course.thumbnail}}" alt="thumbnail" class="h-full w-auto" />
+    <div class="flex justify-between w-full">
+      <div class="flex-1 py-2 p-2 md:pl-6 flex flex-col">
+        <h3 class="font-bold text-lg">{{course.title}}</h3>
+        <div class="flex flex-col justify-between h-full">
+          <p class="text-gray-600 text-sm md:block hidden">
+            {{course.description.slice(0,45)}}...
+          </p>
+          <p class="font-sans font-thin text-md">🟢 LIVE</p>
+        </div>
+      </div>
+      <div class="button-box m-2 md:mr-10 grid place-items-center">
+        <a routerLink="/instructor/manage/{{course.id}}" class=" bg-white text-black border border-black cursor-pointer rounded-md h-fit py-2 px-2">
+          manage
+        </a>
+      </div>
+    </div>
+  </div>
+  }
 </div>
