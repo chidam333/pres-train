@@ -1,0 +1,57 @@
+2025-06-26 00:27:41.688 +05:30 [INF] Application started successfully.
+2025-06-26 00:31:00.507 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-26 00:31:10.783 +05:30 [INF] CourseController initialized.
+2025-06-26 00:31:57.724 +05:30 [INF] CourseController initialized.
+2025-06-26 00:33:28.827 +05:30 [INF] CourseController initialized.
+2025-06-26 00:33:56.722 +05:30 [INF] CourseController initialized.
+2025-06-26 00:35:00.849 +05:30 [INF] CourseController initialized.
+2025-06-26 00:35:08.309 +05:30 [INF] CourseController initialized.
+2025-06-26 00:35:10.675 +05:30 [INF] CourseController initialized.
+2025-06-26 00:35:17.441 +05:30 [INF] CourseController initialized.
+2025-06-26 00:35:20.361 +05:30 [INF] CourseController initialized.
+2025-06-26 00:37:33.096 +05:30 [INF] CourseController initialized.
+2025-06-26 00:48:59.465 +05:30 [INF] CourseController initialized.
+2025-06-26 00:49:19.794 +05:30 [INF] CourseController initialized.
+2025-06-26 00:50:19.706 +05:30 [INF] CourseController initialized.
+2025-06-26 00:51:17.972 +05:30 [INF] CourseController initialized.
+2025-06-26 01:08:14.150 +05:30 [INF] Application started successfully.
+2025-06-26 01:08:15.234 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-06-26 01:08:16.133 +05:30 [INF] CourseController initialized.
+2025-06-26 01:08:41.015 +05:30 [INF] CourseController initialized.
+2025-06-26 01:09:58.616 +05:30 [INF] CourseController initialized.
+2025-06-26 01:10:04.665 +05:30 [INF] CourseController initialized.
+2025-06-26 01:10:39.967 +05:30 [INF] CourseController initialized.
+2025-06-26 01:10:45.916 +05:30 [INF] CourseController initialized.
+2025-06-26 01:11:50.463 +05:30 [INF] CourseController initialized.
+2025-06-26 01:11:57.972 +05:30 [INF] CourseController initialized.
+2025-06-26 01:12:06.988 +05:30 [INF] CourseController initialized.
+2025-06-26 01:12:47.374 +05:30 [INF] CourseController initialized.
+2025-06-26 01:12:56.477 +05:30 [INF] CourseController initialized.
+2025-06-26 01:13:31.494 +05:30 [INF] CourseController initialized.
+2025-06-26 01:14:14.566 +05:30 [INF] CourseController initialized.
+2025-06-26 01:14:34.590 +05:30 [INF] CourseController initialized.
+2025-06-26 01:14:38.189 +05:30 [INF] CourseController initialized.
+2025-06-26 01:15:00.737 +05:30 [INF] CourseController initialized.
+2025-06-26 01:15:14.230 +05:30 [INF] CourseController initialized.
+2025-06-26 01:15:36.302 +05:30 [INF] CourseController initialized.
+2025-06-26 01:15:55.422 +05:30 [INF] CourseController initialized.
+2025-06-26 01:19:39.656 +05:30 [INF] CourseController initialized.
+2025-06-26 01:20:13.936 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:13.241 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:15.544 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:19.741 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:24.019 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:28.340 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:29.871 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:31.021 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:31.928 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:32.794 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:34.520 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:36.808 +05:30 [INF] CourseController initialized.
+2025-06-26 01:21:39.296 +05:30 [INF] CourseController initialized.
+2025-06-26 01:23:25.777 +05:30 [INF] CourseController initialized.
+2025-06-26 01:23:55.024 +05:30 [INF] CourseController initialized.
+2025-06-26 01:24:04.775 +05:30 [INF] CourseController initialized.
+2025-06-26 01:24:27.279 +05:30 [INF] CourseController initialized.
+2025-06-26 01:24:28.889 +05:30 [INF] CourseController initialized.
+2025-06-26 01:25:56.890 +05:30 [INF] CourseController initialized.

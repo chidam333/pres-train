@@ -39,6 +39,7 @@ export class Content implements OnInit {
   async ngOnInit() {
     const lessons = await this.lessonService.getLessonsByCourseId(this.courseId());
     this.lessons.set(lessons);
+    console.log('Lessons fetched:', this.lessons());
   }
 
   @ViewChild('dialog') dialog!: ElementRef<HTMLDialogElement>;

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using ELearnApp.Hubs;
+using Serilog;
 
 
 [ApiController]
@@ -48,12 +49,23 @@ public class MaterialController : ControllerBase
         {
             return Forbid("You are not authorized to upload materials for this lesson.");
         }
+        var materialsWithSameCourseId = _elearnContext.Materials.Include(m => m.Lesson).Where(m => m.Lesson != null && m.Lesson.CourseId == lesson.CourseId).OrderBy(m => m.LessonId).ThenBy(m => m.SequenceNo).ToList();
+        var curSequenceNo = 1;
+        int? fixedSequenceNo = null;
+        foreach (var existingMaterial in materialsWithSameCourseId)
+        {
+            if (fixedSequenceNo == null && existingMaterial.LessonId > materialDto.LessonId)
+            {
+                fixedSequenceNo = curSequenceNo++;
+            }
+            existingMaterial.SequenceNo = curSequenceNo++;
+        }
         var material = new Material
         {
             Title = materialDto.Title,
             LessonId = materialDto.LessonId,
             FileType = Path.GetExtension(materialDto.File.FileName),
-            SequenceNo = materialDto.SequenceNo,
+            SequenceNo = fixedSequenceNo ?? curSequenceNo,
         };
         var filePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles", materialDto.Title + Path.GetExtension(materialDto.File.FileName));
         using (var stream = new FileStream(filePath, FileMode.Create))
@@ -94,5 +106,56 @@ public class MaterialController : ControllerBase
         }
         var fileBytes = System.IO.File.ReadAllBytes(filePath);
         return File(fileBytes, "application/octet-stream", filename);
+    }
+
+    [HttpGet("lesson/{lessonId}")]
+    [Authorize]
+    public async Task<IActionResult> GetMaterialsByLessonId(int lessonId)
+    {
+        var materials = await _elearnContext.Materials
+            .Where(m => m.LessonId == lessonId)
+            .ToListAsync();
+
+        if (materials == null)
+        {
+            return NotFound("No materials found for this lesson.");
+        }
+
+        return Ok(materials);
+    }
+    [HttpDelete("{id}")]
+    [Authorize(Roles = "instructor")]
+    public async Task<IActionResult> DeleteMaterial(int id)
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        var material = await _elearnContext.Materials.Include(m => m.Lesson).ThenInclude(l => l.Course).ThenInclude(c => c.CreatedBy).FirstOrDefaultAsync(m => m.Id == id);
+        if (material == null)
+        {
+            return NotFound("Material not found.");
+        }
+        if (material.Lesson == null || material.Lesson.Course == null || material.Lesson.Course.CreatedBy == null)
+        {
+            return NotFound("Related data not found.");
+        }
+        if (material.Lesson.Course.CreatedBy.Email != userEmail)
+        {
+            return Forbid("You are not authorized to delete this material.");
+        }
+
+        _elearnContext.Materials.Remove(material);
+        
+        var otherMaterialsOfCourse = await _elearnContext.Materials
+            .Include(m => m.Lesson)
+            .Where(m => m.Lesson != null && m.Lesson.CourseId == material.Lesson.CourseId && m.Id != id)
+            .OrderBy(m => m.SequenceNo)
+            .ToListAsync();
+        int sequenceNo = 1;
+        foreach (var otherMaterial in otherMaterialsOfCourse)
+        {
+            otherMaterial.SequenceNo = sequenceNo++;
+        }
+        await _elearnContext.SaveChangesAsync();
+
+        return Ok(new { message = "Material deleted successfully.", material = material });
     }
 }

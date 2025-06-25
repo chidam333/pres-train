@@ -1,4 +1,4 @@
-import { Component, effect, input, OnInit } from '@angular/core';
+import { Component, effect, input, OnInit, signal } from '@angular/core';
 import { MaterialListInstructor } from "../material-list-instructor/material-list-instructor";
 
 @Component({
@@ -9,6 +9,8 @@ import { MaterialListInstructor } from "../material-list-instructor/material-lis
 })
 export class LessonListInstructor {
   lessons = input.required<any[]>();
+  refreshTrigger = signal<number>(0);
+  
   constructor() {
     // effect(() => {
     //   console.log('Lessons updated:', this.lessons());

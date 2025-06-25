@@ -38,4 +38,45 @@ export class Material {
       return { success: true, id: data.id };
     }
   }
+  
+  async getMaterialsByLessonId(lessonId: number): Promise<any[] | { error: string }> {
+    const authToken = this.authFetch.getStoredToken();
+    const response = await fetch(
+      `http://localhost:5243/api/v1/material/lesson/${lessonId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return { error: errorMessage || 'Failed to fetch materials' };
+    }
+    const data = await response.json();
+    if (!data['$values']) {
+      return [];
+    }
+    return data['$values'];
+  }
+
+  async deleteMaterial(materialId: number): Promise<any | { error: string }> {
+    const authToken = this.authFetch.getStoredToken();
+    const response = await fetch(
+      `http://localhost:5243/api/v1/material/${materialId}`,
+      {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return { error: errorMessage || 'Failed to delete material' };
+    }
+    const data = await response.json();
+    return { success: true , data};
+  }
 }
