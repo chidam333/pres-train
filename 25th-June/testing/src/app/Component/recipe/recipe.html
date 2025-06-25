@@ -1,0 +1,20 @@
+<div class="container">
+  <h1>Recipes</h1>
+  
+@if (loading) {
+    <div class="loading">Loading...</div>
+}
+
+@if (!loading) {
+    <div class="recipe-grid">
+        @for(recipe of recipes; track $index) {
+            <div class="recipe-card">
+                <img [src]="recipe.image" [alt]="recipe.name">
+                <h3>{{ recipe.name }}</h3>
+                <p>{{ recipe.cuisine }}</p>
+                <p>Rating: {{ recipe.rating }}/5</p>
+            </div>
+        }
+    </div>
+}
+</div>
