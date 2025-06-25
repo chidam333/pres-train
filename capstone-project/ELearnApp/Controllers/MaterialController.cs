@@ -26,6 +26,7 @@ public class MaterialController : ControllerBase
     [Authorize(Roles = "instructor")]
     public async Task<IActionResult> UploadMaterial(MaterialDto materialDto)
     {
+        Console.WriteLine("Uploading material...");
         if (materialDto == null || string.IsNullOrWhiteSpace(materialDto.Title) || materialDto.LessonId <= 0 || materialDto.File == null)
         {
             return BadRequest("Invalid material data.");
@@ -50,11 +51,11 @@ public class MaterialController : ControllerBase
         var material = new Material
         {
             Title = materialDto.Title,
-            Description = materialDto.Description,
             LessonId = materialDto.LessonId,
-            FileType = materialDto.FileType
+            FileType = Path.GetExtension(materialDto.File.FileName),
+            SequenceNo = materialDto.SequenceNo,
         };
-        var filePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles", materialDto.File.FileName);
+        var filePath = Path.Combine(Environment.CurrentDirectory, "UploadedFiles", materialDto.Title + Path.GetExtension(materialDto.File.FileName));
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await materialDto.File.CopyToAsync(stream);
@@ -62,6 +63,7 @@ public class MaterialController : ControllerBase
         material.FilePath = filePath;
         try
         {
+            Console.WriteLine(material);
             _elearnContext.Materials.Add(material);
             await _elearnContext.SaveChangesAsync();
         }

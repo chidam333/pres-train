@@ -1,6 +1,7 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { Landing } from "./landing/landing";
 import { Content } from "./content/content";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-instructor-manage',
@@ -10,4 +11,6 @@ import { Content } from "./content/content";
 })
 export class InstructorManage {
   activeTab: WritableSignal<number> = signal(0);
+  activatedRoute = inject(ActivatedRoute);
+  courseId = Number(this.activatedRoute.snapshot.params['id']);
 }

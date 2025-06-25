@@ -1,0 +1,9 @@
+<div class="lesson-list ">
+    @for(lesson of lessons(); track lesson.id) {
+        <div class="lesson-item border mb-2 p-2">
+            <h3 class="lesson-title font-bold text-2xl">Lesson {{lesson.sequenceNo}}: {{ lesson.title }}</h3>
+            <p class="lesson-description">{{ lesson.description }} ( id : {{ lesson.id }} )</p>
+            <app-material-list-instructor [materials]="lesson.materials['$values']" [lessonId]="lesson.id"/>
+        </div>
+    }
+</div>

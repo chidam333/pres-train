@@ -1,5 +1,5 @@
-import { Component, effect, inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Course } from '../../Services/course';
 import { FormsModule } from '@angular/forms';
 
@@ -38,14 +38,15 @@ export class Landing implements OnInit {
     this._thumbnail.set(value);
   }
 
-  activatedRoute = inject(ActivatedRoute);
   courseService = inject(Course);
-  courseId = this.activatedRoute.snapshot.params['id'];
+  router = inject(Router);
+  courseId = input.required<number>();
 
   async ngOnInit() {
-    const course = await this.courseService.getCourseById(this.courseId);
+    const course = await this.courseService.getCourseById(this.courseId());
     if (course.error) {
       alert(course.error);
+      this.router.navigate(['instructor/course']);
       return;
     }
     if (course) {
@@ -57,7 +58,7 @@ export class Landing implements OnInit {
   }
   async updateCourse() {
     const response = await this.courseService.updateCourse(
-      this.courseId,
+      this.courseId(),
       this.title,
       this.description,
       this.thumbnail

@@ -11,9 +11,9 @@
   </div>
   <div class="content w-[80vw] my-4 mr-4 rounded-4xl bg-white">
     @if(activeTab() === 0) {
-      <app-landing/>
+      <app-landing [courseId]="courseId"/>
     } @else if(activeTab() === 1) {
-      <app-content/>
+      <app-content [courseId]="courseId"/>
     }
   </div>
 </div>
