@@ -2,6 +2,7 @@ import { Component, inject, signal, WritableSignal } from '@angular/core';
 import { Landing } from "./landing/landing";
 import { Content } from "./content/content";
 import { ActivatedRoute } from '@angular/router';
+import { Profile } from "../profile/profile";
 
 @Component({
   selector: 'app-instructor-manage',

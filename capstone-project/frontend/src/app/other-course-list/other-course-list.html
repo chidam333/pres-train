@@ -1,0 +1,25 @@
+<div class="list my-6 h-[20vh] flex gap-4 overflow-x-auto">
+  @for (course of courses(); track course.id) {
+  <div class="img-box flex-shrink-0 relative group">
+    <img
+      src="{{ course.thumbnail }}"
+      alt="{{ course.title }}"
+      class="h-full w-auto object-contain"
+    />
+    <div class="hover-group">
+      <div
+        class="absolute inset-0 bg-black opacity-0 group-hover:opacity-85 transition-opacity duration-300"
+        title="{{ course.description }}"
+      ></div>
+      <div class="buttons absolute inset-0 grid place-items-center grid-flow-col gap-2 w-fit mx-auto">          
+          <button class="enroll border border-white text-white font-bold px-4 py-2 cursor-pointer group-hover:visible invisible transition-all duration-75">
+            find more
+          </button>
+          <button class="enroll border border-white bg-white text-black font-bold px-4 py-2 cursor-pointer group-hover:visible invisible transition-all duration-75" (click)="enrollCourse(course.id)">
+            enroll
+          </button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

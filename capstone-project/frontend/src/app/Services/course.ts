@@ -116,4 +116,63 @@ export class Course {
     }
     return await response.json();
   }
+
+  async getOtherCourses(): Promise<any[] | { error: string }> {
+    let auth_token = this.authFetch.getStoredToken();
+    const response = await fetch(`${environment.apiUrl}/course/others`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth_token}`,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.text();
+      return { error: errorData || 'Failed to fetch other courses' };
+    }
+    const data = await response.json();
+    if (!data['$values']) {
+      return { error: 'no value found' };
+    }
+    return data['$values'];
+  }
+
+  async getMyCourses(): Promise<any[] | { error: string }> {
+    let auth_token = this.authFetch.getStoredToken();
+    const response = await fetch(`${environment.apiUrl}/enrollment/my-courses`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth_token}`,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.text();
+      return { error: errorData || 'Failed to fetch my courses' };
+    }
+    const data = await response.json();
+    if (!data['$values']) {
+      return { error: 'no value found' };
+    }
+    return data['$values'];
+  }
+
+  async unenrollCourse(courseId: number): Promise<any | { error: string }> {
+    let auth_token = this.authFetch.getStoredToken();
+    const response = await fetch(`${environment.apiUrl}/enrollment/`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth_token}`,
+      },
+      body: JSON.stringify({ courseId }),
+    });
+    if (!response.ok) {
+      const errorData = await response.text();
+      return { error: errorData || 'Unenrollment failed' };
+    }
+    const data = await response.json();
+    console.log({data})
+    return data;
+  }
 }

@@ -13,6 +13,7 @@ import { Lesson } from '../../Services/lesson';
 import { FormsModule } from '@angular/forms';
 import { max } from 'rxjs';
 import { LessonListInstructor } from "../../lesson-list-instructor/lesson-list-instructor";
+import { Profile } from "../../profile/profile";
 
 @Component({
   selector: 'app-content',

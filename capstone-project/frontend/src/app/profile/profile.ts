@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { AuthFetch } from '../auth/auth-service/auth-fetch';
 import { Router } from '@angular/router';
 
@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
   styleUrl: './profile.css'
 })
 export class Profile {
+  invert = input<boolean>(false);
+  nonHoverMode = input<boolean>(false);
   about_me = inject(AuthFetch);
   router = inject(Router);
   user = this.about_me.getUniqueName();
