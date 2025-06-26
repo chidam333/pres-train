@@ -14,11 +14,13 @@ namespace ELearnApp.Controllers;
 public class CourseController : ControllerBase
 {
     private readonly CourseService _courseService;
+    private readonly EnrollmentService _enrollmentService;
     private readonly IHubContext<NotifyHub> _hubContext;
 
-    public CourseController(CourseService courseService, IHubContext<NotifyHub> hubContext)
+    public CourseController(CourseService courseService, EnrollmentService enrollmentService, IHubContext<NotifyHub> hubContext)
     {
         _courseService = courseService;
+        _enrollmentService = enrollmentService;
         _hubContext = hubContext;
         Log.Information("CourseController initialized.");
     }
@@ -74,6 +76,7 @@ public class CourseController : ControllerBase
         return Ok(courses);
     }
 
+
     [HttpGet("instructor")]
     [Authorize(Roles = "instructor")]
     public async Task<IActionResult> GetInstructorCourses()
@@ -87,6 +90,23 @@ public class CourseController : ControllerBase
         if (result == null || !result.Any())
         {
             return NotFound("No courses found for this instructor.");
+        }
+        return Ok(result);
+    }
+
+    [HttpGet("others")]
+    [Authorize(Roles = "student")]
+    public async Task<IActionResult> GetOtherCourses()
+    {
+        var userEmail = User.FindFirstValue(ClaimTypes.Email);
+        if (string.IsNullOrEmpty(userEmail))
+        {
+            return Unauthorized("User email not found in token.");
+        }
+        var result = await _enrollmentService.GetOthersCoursesAsync(userEmail);
+        if (result == null || !result.Any())
+        {
+            return NotFound("You are already enrolled in all available courses.");
         }
         return Ok(result);
     }

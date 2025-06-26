@@ -21,9 +21,9 @@ public class EnrollmentController : ControllerBase
     public async Task<IActionResult> EnrollInCourse([FromBody] EnrollmentDto enrollmentDto)
     {
         var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-        
+
         var result = await _enrollmentService.EnrollInCourseAsync(enrollmentDto, userEmail ?? string.Empty);
-        
+
         if (!result.Success)
         {
             if (result.Message == "User not found.")
@@ -43,9 +43,9 @@ public class EnrollmentController : ControllerBase
     public async Task<IActionResult> UnenrollFromCourse([FromBody] EnrollmentDto enrollmentDto)
     {
         var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-        
+
         var result = await _enrollmentService.UnenrollFromCourseAsync(enrollmentDto, userEmail ?? string.Empty);
-        
+
         if (!result.Success)
         {
             if (result.Message == "User not found.")
@@ -57,13 +57,13 @@ public class EnrollmentController : ControllerBase
 
         return Ok(result.Message);
     }
-    
+
     [HttpGet("my-courses")]
     [Authorize(Roles = "student")]
     public async Task<IActionResult> GetMyCourses()
     {
         var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-        
+
         var enrolledCourses = await _enrollmentService.GetUserEnrollmentsAsync(userEmail ?? string.Empty);
 
         return Ok(enrolledCourses);

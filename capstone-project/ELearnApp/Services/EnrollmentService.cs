@@ -79,17 +79,29 @@ public class EnrollmentService
         return (true, "Successfully unenrolled from the course.");
     }
 
-    public async Task<List<UserCourse>> GetUserEnrollmentsAsync(string userEmail)
+    public async Task<List<Course>> GetUserEnrollmentsAsync(string userEmail)
     {
         var user = await _userRepository.GetUserByEmailAsync(userEmail);
         if (user == null)
         {
-            return new List<UserCourse>();
+            return new List<Course>();
         }
 
-        return await _enrollmentRepository.Query()
-            .Where(uc => uc.UserId == user.Id)
-            .Include(uc => uc.Course)
+        return await _courseRepository.Query()
+            .Where(c => _enrollmentRepository.Query().Any(uc => uc.UserId == user.Id && uc.CourseId == c.Id))
+            .ToListAsync();
+    }
+
+    public async Task<List<Course>> GetOthersCoursesAsync(string userEmail)
+    {
+        var user = await _userRepository.GetUserByEmailAsync(userEmail);
+        if (user == null)
+        {
+            return new List<Course>();
+        }
+
+        return await _courseRepository.Query()
+            .Where(c => !_enrollmentRepository.Query().Any(uc => uc.UserId == user.Id && uc.CourseId == c.Id))
             .ToListAsync();
     }
 }

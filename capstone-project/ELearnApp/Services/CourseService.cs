@@ -59,7 +59,8 @@ public class CourseService
         return (await _courseRepository.GetAllAsync()).ToList();
     }
 
-    public async Task<List<Course>> GetCoursesByInstructorAsync(string instructorEmail) {
+    public async Task<List<Course>> GetCoursesByInstructorAsync(string instructorEmail)
+    {
         return await _courseRepository.Query()
             .Where(c => c.CreatedBy != null && c.CreatedBy.Email == instructorEmail)
             .ToListAsync();
