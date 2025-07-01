@@ -127,4 +127,21 @@ public class CourseService
 
         return (true, null);
     }
+
+    public async Task<(Course? Course, string? Message)> GetCourseDetailsAsync(int id)
+    {
+        var course = await _courseRepository.Query()
+            .Include(c => c.CreatedBy)
+            .Include(c => c.Lessons)
+            .ThenInclude(l => l.Materials)
+            .Where(c => c.Id == id)
+            .FirstOrDefaultAsync();
+
+        if (course == null)
+        {
+            return (null, "Course not found.");
+        }
+
+        return (course, null);
+    }
 }

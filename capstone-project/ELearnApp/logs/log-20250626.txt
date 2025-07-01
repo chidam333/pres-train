@@ -290,3 +290,9 @@ System.Runtime.CompilerServices.HotReloadException: Attempted to invoke a delete
 2025-06-26 17:27:39.740 +05:30 [INF] CourseController initialized.
 2025-06-26 17:27:49.603 +05:30 [INF] CourseController initialized.
 2025-06-26 17:27:49.738 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:05.656 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:07.307 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:10.447 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:11.867 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:14.201 +05:30 [INF] CourseController initialized.
+2025-06-26 17:30:14.226 +05:30 [INF] CourseController initialized.

@@ -68,6 +68,35 @@ public class CourseController : ControllerBase
         return Ok(result.Course);
     }
 
+    [HttpGet("details/{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetCourseDetails(int id)
+    {
+        var result = await _courseService.GetCourseDetailsAsync(id);
+        
+        if (result.Course == null)
+        {
+            return NotFound(result.Message ?? "Course not found.");
+        }
+
+        var course = result.Course;
+        // Console.WriteLine($"Course: {course.Id} - {course.Title}");
+
+        // var filteredResult = new
+        // {
+        //     course.Id,
+        //     course.Title,
+        //     course.Description,
+        //     course.CreatedAt,
+        //     course.Lessons,
+        //     course.Thumbnail,
+        //     course.CreatedById,
+        //     course.CreatedBy
+        // };
+        
+        return Ok(course);
+    }
+
     [HttpGet]
     [Authorize]
     public async Task<IActionResult> GetAllCourses()

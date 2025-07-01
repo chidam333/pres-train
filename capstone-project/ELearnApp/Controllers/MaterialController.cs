@@ -95,6 +95,18 @@ public class MaterialController : ControllerBase
         return Ok(material);
     }
 
+    [HttpGet("{id}")]
+    [Authorize]
+    public async Task<IActionResult> GetMaterial(int id)
+    {
+        var material = await _elearnContext.Materials.FindAsync(id);
+        if (material == null)
+        {
+            return NotFound("Material not found.");
+        }
+        return Ok(material);
+    }
+
     [HttpGet("download/{filename}")]
     [Authorize]
     public ActionResult GetMaterialByFilename(string filename)
@@ -106,6 +118,19 @@ public class MaterialController : ControllerBase
         }
         var fileBytes = System.IO.File.ReadAllBytes(filePath);
         return File(fileBytes, "application/octet-stream", filename);
+    }
+
+    [HttpGet("stream/{id}")]
+    public ActionResult StreamMaterial(int id)
+    {
+        var material = _elearnContext.Materials.Find(id);
+        if (material == null || !System.IO.File.Exists(material.FilePath))
+        {
+            return NotFound("Material not found.");
+        }
+
+        var stream = new FileStream(material.FilePath, FileMode.Open, FileAccess.Read);
+        return File(stream, "application/octet-stream", material.Title, enableRangeProcessing: true);
     }
 
     [HttpGet("lesson/{lessonId}")]
