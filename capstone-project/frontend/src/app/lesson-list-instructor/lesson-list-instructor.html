@@ -1,12 +1,36 @@
-<div class="lesson-list ">
-    @if(lessons().length === 0) {
-        <p class="text-gray-500">No lessons available. Please add a new lesson.</p>
-    }
-    @for(lesson of lessons(); track lesson.id) {
-        <div class="lesson-item border mb-2 p-2">
-            <h3 class="lesson-title font-bold text-2xl">Lesson {{lesson.sequenceNo}}: {{ lesson.title }}</h3>
-            <p class="lesson-description">{{ lesson.description }} ( id : {{ lesson.id }} )</p>
-            <app-material-list-instructor [lessonId]="lesson.id" [refreshTrigger]="refreshTrigger"/>
-        </div>
-    }
+<div class="lesson-list">
+  @if(lessons().length === 0) {
+  <p class="text-gray-500">No lessons available. Please add a new lesson.</p>
+  } @for(lesson of lessons(); track lesson.id) {
+  <form
+    class="lesson-item border mb-2 p-2"
+    (submit)="updateLesson(lesson.id, titleInput.value, descriptionInput.value, $event, lesson.sequenceNo, lesson.courseId)"
+  >
+    <div class="flex justify-between">
+      <div class="flex font-bold text-2xl">
+        <span>Lesson {{lesson.sequenceNo}} : &nbsp;&nbsp;</span
+        ><input #titleInput value="{{ lesson.title }}" class="w-[60%]" />
+      </div>
+      <button
+        type="submit"
+        class="edit bg-black text-white rounded-lg font-light px-3 py-1 cursor-pointer text-md"
+      >
+        edit
+      </button>
+    </div>
+    <p class="lesson-description">
+      <input
+        #descriptionInput
+        type="text"
+        value="{{ lesson.description }}"
+        class="w-full"
+      />
+    </p>
+
+    <app-material-list-instructor
+      [lessonId]="lesson.id"
+      [refreshTrigger]="refreshTrigger"
+    />
+  </form>
+  }
 </div>

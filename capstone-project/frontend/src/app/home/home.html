@@ -15,3 +15,9 @@
     <app-other-course-list [refreshSignal]="refreshSignal" />
   </div>
 </div>
+
+@if (toastMessages().length > 0) {
+  <app-success-toast class="top-20 right-6 fixed z-50" 
+    title="Notification" 
+    [message]="toastMessages()" />
+}

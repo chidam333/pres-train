@@ -60,4 +60,56 @@ export class Lesson {
     }
     return data['$values']; 
   }
+  async updateLesson(
+    lessonId: number,
+    title: string,
+    description: string,
+    courseId: number,
+    sequenceNo: number
+  ) {
+    let authToken = this.authFetch.getStoredToken();
+    if (!authToken) {
+      return { error: 'You are not authorized to update lesson' };
+    }
+    let response = await fetch(`${environment.apiUrl}/lesson/${lessonId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+      body: JSON.stringify({
+        title,
+        description,
+        courseId,
+        sequenceNo,
+      }),
+    });
+    if (!response.ok) {
+      let errorMessage = await response.text();
+      return { error: errorMessage || 'Failed to update lesson' };
+    }
+    const data = await response.json();
+    return data;
+  }
+
+  async deleteLesson(lessonId: number): Promise<any | { error: string }> {
+    let authToken = this.authFetch.getStoredToken();
+    if (!authToken) {
+      return { error: 'You are not authorized to delete lesson' };
+    }
+    let response = await fetch(`${environment.apiUrl}/lesson/${lessonId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${authToken}`,
+      },
+    });
+    if (!response.ok) {
+      let errorMessage = await response.text();
+      return { error: errorMessage || 'Failed to delete lesson' };
+    }
+    return { message: 'Lesson deleted successfully' };
+  }
 }
+
+

@@ -41,5 +41,6 @@ export const routes: Routes = [
   {
     path: 'course/:id',
     component: CoursePage,
+    canActivate: [studentGuard],
   },
 ];
