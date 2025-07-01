@@ -79,4 +79,23 @@ export class Material {
     const data = await response.json();
     return { success: true , data};
   }
+
+  async getMaterialByMaterialId(materialId: number): Promise<any | { error: string }> {
+    const authToken = this.authFetch.getStoredToken();
+    const response = await fetch(
+      `http://localhost:5243/api/v1/material/${materialId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${authToken}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorMessage = await response.text();
+      return { error: errorMessage || 'Failed to fetch material' };
+    }
+    const data = await response.json();
+    return data;
+  }
 }

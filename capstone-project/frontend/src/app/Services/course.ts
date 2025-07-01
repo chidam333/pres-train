@@ -175,4 +175,27 @@ export class Course {
     console.log({data})
     return data;
   }
+
+  async getCourseDetailsById(
+    courseId: number
+  ): Promise<any | { error: string }> {
+    let auth_token = this.authFetch.getStoredToken();
+    const response = await fetch(
+      `${environment.apiUrl}/course/details/${courseId}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth_token}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      const errorData = await response.text();
+      return { error: errorData || 'Failed to fetch course details' };
+    }
+    const data = await response.json();
+    console.log({data})
+    return data;
+  }
 }

@@ -1,9 +1,10 @@
 import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { Course } from '../Services/course';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-my-course-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './my-course-list.html',
   styleUrl: './my-course-list.css',
 })
@@ -29,7 +30,9 @@ export class MyCourseList implements OnInit {
       this.courses.set(response);
     }
   }
-  async unenrollCourse(courseId: number) {
+  async unenrollCourse(courseId: number, $event: Event) {
+    $event.stopPropagation(); 
+    $event.preventDefault()
     try{
     const response = await this.courseService.unenrollCourse(courseId);
     if ('error' in response) {

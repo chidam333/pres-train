@@ -1,10 +1,11 @@
 import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { Course } from '../Services/course';
 import { Enrollment } from '../Services/enrollment';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-other-course-list',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './other-course-list.html',
   styleUrl: './other-course-list.css'
 })

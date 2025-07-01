@@ -1,29 +1,41 @@
 <div class="list my-6 h-[24vh] flex gap-4 overflow-x-auto">
-    @for (course of courses(); track course.id) {
-    <div class="card flex-shrink-0 w-[700px] bg-white rounded-lg shadow-md overflow-hidden border my-2">
-        <div class="flex h-full">
-            <div class="flex-shrink-0 flex items-center justify-center">
-                <img
-                    src="{{ course.thumbnail }}"
-                    alt="{{ course.title }}"
-                    class="h-full object-contain"
-                />
-            </div>
-            <div class="flex-1 p-4 flex flex-col justify-between">
-                <div>
-                    <h3 class="font-semibold text-lg mb-2 line-clamp-2">{{ course.title }}</h3>
-                    <p class="text-gray-600 line-clamp-3 mb-4">{{ course.description }}</p>
-                </div>
-                <div class="flex gap-2">
-                    <button class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
-                        Explore
-                    </button>
-                    <button class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600" (click)="unenrollCourse(course.id)">
-                        Unenroll
-                    </button>
-                </div>
-            </div>
+  @for (course of courses(); track course.id) {
+  <a
+    routerLink="/course/{{course.id}}"
+    class="card flex-shrink-0 w-[700px] bg-white rounded-lg shadow-md overflow-hidden border my-2"
+  >
+    <div class="flex h-full">
+      <div class="flex-shrink-0 flex items-center justify-center">
+        <img
+          src="{{ course.thumbnail }}"
+          alt="{{ course.title }}"
+          class="h-full object-contain"
+        />
+      </div>
+      <div class="flex-1 p-4 flex flex-col justify-between">
+        <div>
+          <h3 class="font-semibold text-lg mb-2 line-clamp-2">
+            {{ course.title }}
+          </h3>
+          <p class="text-gray-600 line-clamp-3 mb-4">
+            {{ course.description }}
+          </p>
         </div>
+        <div class="flex gap-2">
+          <button
+            class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600"
+          >
+            Explore
+          </button>
+          <button
+            class="bg-red-500 text-white px-3 py-1 rounded text-sm hover:bg-red-600"
+            (click)="unenrollCourse(course.id, $event);"
+          >
+            Unenroll
+          </button>
+        </div>
+      </div>
     </div>
-    }
+  </a>
+  }
 </div>
