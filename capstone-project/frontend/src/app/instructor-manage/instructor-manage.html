@@ -5,7 +5,8 @@
       <button class="h-[10vh] cursor-pointer w-full text-xl font-mono {{activeTab() === 1 ? 'bg-black invert' : ''}}" (click)="activeTab.set(1)">curriculum</button>
       <button class="disabled h-[10vh] w-full text-xl font-mono text-stone-500">settings (coming soon)</button>
     </nav>
-    <div class="button-box grid place-items-center">
+    <div class="button-box grid place-items-center gap-2">
+      <button class="bg-red-400 text-white h-fit w-fit px-6 py-3 rounded-lg font-bold cursor-pointer" (click)="deleteCourse()">delete</button>
       <button class="bg-green-400 h-fit w-fit px-6 py-3 rounded-lg text-black font-bold">publish</button>
     </div>
   </div>

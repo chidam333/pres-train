@@ -198,4 +198,20 @@ export class Course {
     console.log({data})
     return data;
   }
+
+  async deleteCourse(courseId: number): Promise<any | { error: string }> {
+    let auth_token = this.authFetch.getStoredToken();
+    const response = await fetch(`${environment.apiUrl}/course/${courseId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${auth_token}`,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.text();
+      return { error: errorData || 'Course deletion failed' };
+    }
+    return await response.json();
+  }
 }

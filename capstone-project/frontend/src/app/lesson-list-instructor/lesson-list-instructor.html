@@ -11,12 +11,15 @@
         <span>Lesson {{lesson.sequenceNo}} : &nbsp;&nbsp;</span
         ><input #titleInput value="{{ lesson.title }}" class="w-[60%]" />
       </div>
-      <button
-        type="submit"
-        class="edit bg-black text-white rounded-lg font-light px-3 py-1 cursor-pointer text-md"
-      >
-        edit
-      </button>
+      <div class="next flex gap-4">
+          <button (click)="deleteLesson(lesson.id)" class="cursor-pointer"><img src="delete.svg" alt="" class="w-8"></button>
+          <button
+            type="submit"
+            class="edit bg-black text-white rounded-lg font-light px-3 py-1 cursor-pointer text-md"
+          >
+            edit
+          </button>
+      </div>
     </div>
     <p class="lesson-description">
       <input

@@ -94,6 +94,8 @@ public class LessonController : ControllerBase
     [Authorize(Roles = "instructor")]
     public async Task<IActionResult> UpdateLesson(int id, [FromBody] LessonDto lessonDto)
     {
+        Log.Information("Updating lesson with ID: {LessonId} for course ID: {CourseId}", id, lessonDto.CourseId);
+
         if (lessonDto == null || string.IsNullOrWhiteSpace(lessonDto.Title) || lessonDto.CourseId <= 0)
         {
             return BadRequest("Invalid lesson data.");

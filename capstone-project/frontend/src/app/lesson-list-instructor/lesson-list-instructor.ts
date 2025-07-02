@@ -25,7 +25,16 @@ export class LessonListInstructor {
       alert('Failed to update lesson: ' + response.error);
     } else {
       console.log('Lesson updated successfully:', response);
-      // this.refreshTrigger.set(this.refreshTrigger() + 1);
+    }
+  }
+
+  async deleteLesson(lessonId: number) {
+    const response = await this.lessonService.deleteLesson(lessonId);
+    if ('error' in response) {
+      alert('Failed to delete lesson: ' + response.error);
+    } else {
+      console.log('Lesson deleted successfully:', response);
+      this.refreshTrigger.update(val => val + 1);
     }
   }
 }
