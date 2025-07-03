@@ -1,0 +1,33 @@
+2025-07-03 09:28:25.347 +05:30 [INF] CourseController initialized.
+2025-07-03 09:28:25.666 +05:30 [INF] CourseController initialized.
+2025-07-03 09:28:29.580 +05:30 [INF] CourseController initialized.
+2025-07-03 09:28:29.604 +05:30 [INF] CourseController initialized.
+2025-07-03 10:29:53.363 +05:30 [INF] CourseController initialized.
+2025-07-03 10:29:53.876 +05:30 [INF] CourseController initialized.
+2025-07-03 10:32:25.205 +05:30 [INF] CourseController initialized.
+2025-07-03 10:32:27.619 +05:30 [INF] CourseController initialized.
+2025-07-03 10:33:02.915 +05:30 [INF] CourseController initialized.
+2025-07-03 10:33:02.939 +05:30 [INF] CourseController initialized.
+2025-07-03 10:34:21.699 +05:30 [INF] CourseController initialized.
+2025-07-03 10:34:30.547 +05:30 [INF] CourseController initialized.
+2025-07-03 10:34:30.560 +05:30 [INF] CourseController initialized.
+2025-07-03 10:39:48.039 +05:30 [INF] Application started successfully.
+2025-07-03 10:40:12.225 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-07-03 10:42:41.934 +05:30 [INF] CourseController initialized.
+2025-07-03 10:42:43.074 +05:30 [INF] CourseController initialized.
+2025-07-03 10:44:32.340 +05:30 [INF] Application started successfully.
+2025-07-03 10:45:07.936 +05:30 [INF] Application started successfully.
+2025-07-03 10:45:43.563 +05:30 [WRN] Failed to determine the https port for redirect.
+2025-07-03 10:45:46.002 +05:30 [INF] CourseController initialized.
+2025-07-03 10:45:46.221 +05:30 [INF] CourseController initialized.
+2025-07-03 10:45:50.672 +05:30 [INF] CourseController initialized.
+2025-07-03 10:45:50.700 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-07-03 10:51:37.974 +05:30 [INF] CourseController initialized.
+2025-07-03 10:51:38.031 +05:30 [INF] CourseController initialized.
+2025-07-03 10:51:40.420 +05:30 [INF] CourseController initialized.
+2025-07-03 10:51:42.035 +05:30 [INF] CourseController initialized.
+2025-07-03 10:51:42.044 +05:30 [INF] CourseController initialized.
+2025-07-03 12:15:55.364 +05:30 [INF] CourseController initialized.
+2025-07-03 12:15:55.513 +05:30 [INF] CourseController initialized.
+2025-07-03 15:17:39.774 +05:30 [INF] Application started successfully.
+2025-07-03 15:18:46.214 +05:30 [INF] Application started successfully.

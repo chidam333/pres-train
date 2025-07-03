@@ -37,3 +37,27 @@
 2025-07-02 10:00:15.292 +05:30 [INF] CourseController initialized.
 2025-07-02 10:00:22.747 +05:30 [INF] CourseController initialized.
 2025-07-02 10:00:22.762 +05:30 [INF] CourseController initialized.
+2025-07-02 12:07:54.867 +05:30 [INF] CourseController initialized.
+2025-07-02 12:07:56.764 +05:30 [INF] CourseController initialized.
+2025-07-02 12:07:58.065 +05:30 [INF] CourseController initialized.
+2025-07-02 12:08:22.992 +05:30 [INF] Updating lesson with ID: 9 for course ID: 2
+2025-07-02 12:08:42.507 +05:30 [INF] Updating lesson with ID: 9 for course ID: 2
+2025-07-02 12:09:11.345 +05:30 [INF] CourseController initialized.
+2025-07-02 12:14:35.685 +05:30 [INF] CourseController initialized.
+2025-07-02 12:19:23.702 +05:30 [INF] CourseController initialized.
+2025-07-02 12:19:23.787 +05:30 [INF] CourseController initialized.
+2025-07-02 13:40:43.183 +05:30 [INF] CourseController initialized.
+2025-07-02 13:40:43.183 +05:30 [INF] CourseController initialized.
+2025-07-02 13:40:43.319 +05:30 [INF] CourseController initialized.
+2025-07-02 16:14:14.962 +05:30 [INF] CourseController initialized.
+2025-07-02 16:14:15.009 +05:30 [INF] CourseController initialized.
+2025-07-02 16:14:15.018 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:24.926 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:24.926 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:25.023 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:38.670 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:38.715 +05:30 [INF] CourseController initialized.
+2025-07-02 17:24:38.738 +05:30 [INF] CourseController initialized.
+2025-07-02 19:45:40.305 +05:30 [INF] CourseController initialized.
+2025-07-02 19:45:40.305 +05:30 [INF] CourseController initialized.
+2025-07-02 19:45:40.403 +05:30 [INF] CourseController initialized.
