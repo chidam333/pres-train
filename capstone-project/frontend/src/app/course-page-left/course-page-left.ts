@@ -3,6 +3,7 @@ import { Course as CourseModel } from '../model/course.model';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Material } from '../Services/material';
 import { DatePipe } from '@angular/common';
+import { environment } from '../../environments/environment';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class CoursePageLeft {
   sanitizer = inject(DomSanitizer);
   materialService = inject(Material); 
   materialDetail = signal<any>(null);
+  apiUrl = environment.apiUrl;
   
   constructor(){
     effect(async () => {

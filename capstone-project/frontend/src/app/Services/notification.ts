@@ -19,7 +19,7 @@ export class Notification {
   startConnection(): void {
     console.log('Starting SignalR connection...');
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5243/notifyHub', { withCredentials: true })
+      .withUrl('https://localhost:5243/notifyHub', { withCredentials: true })
       .withAutomaticReconnect()
       .build();
 

@@ -1,11 +1,13 @@
 import { inject, Injectable } from '@angular/core';
 import { AuthFetch } from '../auth/auth-service/auth-fetch';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class Material {
   authFetch = inject(AuthFetch);
+  apiUrl = environment.apiUrl;
   async uploadMaterial(
     lessonId: number,
     title: string,
@@ -18,7 +20,7 @@ export class Material {
     formData.append('File', file, file.name);
 
     const response = await fetch(
-      `http://localhost:5243/api/v1/material/upload?Title=${title}&LessonId=${lessonId}&SequenceNo=${sequenceNo}`,
+      `${this.apiUrl}/material/upload?Title=${title}&LessonId=${lessonId}&SequenceNo=${sequenceNo}`,
       {
         method: 'POST',
         headers: {
@@ -42,7 +44,7 @@ export class Material {
   async getMaterialsByLessonId(lessonId: number): Promise<any[] | { error: string }> {
     const authToken = this.authFetch.getStoredToken();
     const response = await fetch(
-      `http://localhost:5243/api/v1/material/lesson/${lessonId}`,
+      `${this.apiUrl}/material/lesson/${lessonId}`,
       {
         method: 'GET',
         headers: {
@@ -64,7 +66,7 @@ export class Material {
   async deleteMaterial(materialId: number): Promise<any | { error: string }> {
     const authToken = this.authFetch.getStoredToken();
     const response = await fetch(
-      `http://localhost:5243/api/v1/material/${materialId}`,
+      `${this.apiUrl}/material/${materialId}`,
       {
         method: 'DELETE',
         headers: {
@@ -83,7 +85,7 @@ export class Material {
   async getMaterialByMaterialId(materialId: number): Promise<any | { error: string }> {
     const authToken = this.authFetch.getStoredToken();
     const response = await fetch(
-      `http://localhost:5243/api/v1/material/${materialId}`,
+      `${this.apiUrl}/material/${materialId}`,
       {
         method: 'GET',
         headers: {

@@ -1,0 +1,130 @@
+/* Payment Container */
+.payment-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f5f5f5;
+  padding: 20px;
+}
+
+/* Payment Card */
+.payment-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 400px;
+  width: 100%;
+  padding: 30px;
+}
+
+/* Header */
+.payment-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.payment-title {
+  font-size: 24px;
+  color: #333;
+  margin: 15px 0 5px 0;
+}
+
+.payment-subtitle {
+  color: #666;
+  font-size: 14px;
+}
+
+/* Form */
+.form-row {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 5px;
+  color: #333;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #528FF0;
+}
+
+/* Amount Input */
+.amount-input-wrapper {
+  position: relative;
+}
+
+.currency-symbol {
+  position: absolute;
+  left: 12px;
+  top: 12px;
+  color: #666;
+}
+
+.amount-input {
+  padding-left: 30px !important;
+}
+
+/* Error Messages */
+.error-message {
+  color: #d93025;
+  font-size: 12px;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.form-input.ng-invalid.ng-touched {
+  border-color: #d93025;
+}
+
+/* Button */
+.pay-button {
+  width: 100%;
+  background: #528FF0;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 14px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pay-button:hover:not(:disabled) {
+  background: #4070d0;
+}
+
+.pay-button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Security Info */
+.security-info {
+  text-align: center;
+  margin-top: 20px;
+  color: #666;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}
