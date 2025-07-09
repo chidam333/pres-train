@@ -1,4 +1,4 @@
-<div class="list my-6 h-[24vh] flex gap-4 overflow-x-auto">
+<div class="list my-6 h-[14vh] md:h-[24vh] flex gap-4 overflow-x-auto">
   @for (course of courses(); track course.id) {
   <a
     routerLink="/course/{{course.id}}"
@@ -12,12 +12,12 @@
           class="h-full object-contain"
         />
       </div>
-      <div class="flex-1 p-4 flex flex-col justify-between">
+      <div class="flex-1 p-2 md:p-4 flex flex-col justify-between">
         <div>
-          <h3 class="font-semibold text-lg mb-2 line-clamp-2">
+          <h3 class="font-semibold text-lg mb-2 truncate md:line-clamp-2">
             {{ course.title }}
           </h3>
-          <p class="text-gray-600 line-clamp-3 mb-4">
+          <p class="text-gray-600 truncate md:line-clamp-3 mb-4">
             {{ course.description }}
           </p>
         </div>

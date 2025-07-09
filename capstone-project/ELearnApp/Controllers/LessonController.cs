@@ -139,26 +139,65 @@ public class LessonController : ControllerBase
     [Authorize(Roles = "instructor")]
     public async Task<IActionResult> DeleteLesson(int id)
     {
-        var lesson = await _elearnContext.Lessons.Include(l => l.Course).ThenInclude(c => c!.CreatedBy).FirstOrDefaultAsync(l => l.Id == id);
-        if (lesson == null)
+        using var transaction = await _elearnContext.Database.BeginTransactionAsync();
+        try
         {
-            return NotFound("Lesson not found.");
+            var lesson = await _elearnContext.Lessons.Include(l => l.Course).ThenInclude(c => c!.CreatedBy).FirstOrDefaultAsync(l => l.Id == id);
+            if (lesson == null)
+            {
+                return NotFound("Lesson not found.");
+            }
+            if (lesson.Course == null || lesson.Course.CreatedBy == null)
+            {
+                return NotFound("Course or course creator not found.");
+            }
+            if (lesson.Course.CreatedBy.Email == null)
+            {
+                return NotFound("Course creator email not found.");
+            }
+            var userEmail = User.FindFirstValue(ClaimTypes.Email);
+            if (lesson.Course.CreatedBy.Email != userEmail)
+            {
+                return Forbid("You are not authorized to delete this lesson.");
+            }
+            
+            var courseId = lesson.CourseId;
+            var deletedSequenceNo = lesson.SequenceNo;
+            
+            _elearnContext.Lessons.Remove(lesson);
+            await _elearnContext.SaveChangesAsync();
+            
+            var remainingLessons = await _elearnContext.Lessons
+                .Where(l => l.CourseId == courseId && l.SequenceNo > deletedSequenceNo)
+                .OrderBy(l => l.SequenceNo)
+                .ToListAsync();
+
+            Log.Information("remainingLessons count: {Count}", remainingLessons.Count);
+
+            for (int i = 0; i < remainingLessons.Count; i++)
+            {
+                remainingLessons[i].SequenceNo -= 1;
+            }
+
+            if (remainingLessons.Count > 0)
+            {
+                await _elearnContext.SaveChangesAsync();
+            }
+            
+            await transaction.CommitAsync();
+            return Ok(new { Message = "Lesson deleted successfully." });
         }
-        if (lesson.Course == null || lesson.Course.CreatedBy == null)
+        catch (DbUpdateConcurrencyException ex)
         {
-            return NotFound("Course or course creator not found.");
+            await transaction.RollbackAsync();
+            Log.Error(ex, "Concurrency conflict while deleting lesson with ID: {LessonId}", id);
+            return Conflict("The lesson has been modified by another user. Please refresh and try again.");
         }
-        if (lesson.Course.CreatedBy.Email == null)
+        catch (Exception ex)
         {
-            return NotFound("Course creator email not found.");
+            await transaction.RollbackAsync();
+            Log.Error(ex, "Error deleting lesson with ID: {LessonId}", id);
+            return StatusCode(500, "Internal server error while deleting lesson.");
         }
-        var userEmail = User.FindFirstValue(ClaimTypes.Email);
-        if (lesson.Course.CreatedBy.Email != userEmail)
-        {
-            return Forbid("You are not authorized to delete this lesson.");
-        }
-        _elearnContext.Lessons.Remove(lesson);
-        await _elearnContext.SaveChangesAsync();
-        return Ok(new { Message = "Lesson deleted successfully." });
     }
 }

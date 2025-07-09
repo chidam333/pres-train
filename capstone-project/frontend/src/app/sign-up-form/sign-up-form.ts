@@ -32,6 +32,7 @@ export class SignUpForm {
     this.error.set(null);
     if (this.signupForm.valid) {
       const formData = this.signupForm.value  as UserDto;
+      formData.role = this.forRole() as string;
       const response = await this.authFetch.register(formData);
       if('error' in response) {
         this.error.set(response.error);

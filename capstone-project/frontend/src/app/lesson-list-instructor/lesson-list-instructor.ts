@@ -1,4 +1,4 @@
-import { Component, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, effect, inject, input, OnInit, signal, WritableSignal } from '@angular/core';
 import { MaterialListInstructor } from "../material-list-instructor/material-list-instructor";
 import { Lesson } from '../Services/lesson';
 
@@ -10,8 +10,8 @@ import { Lesson } from '../Services/lesson';
 })
 export class LessonListInstructor {
   lessons = input.required<any[]>();
-  refreshTrigger = signal<number>(0);
   lessonService = inject(Lesson);
+  refreshTrigger = input.required<WritableSignal<number>>();
   constructor() {
 
   }
@@ -30,11 +30,11 @@ export class LessonListInstructor {
 
   async deleteLesson(lessonId: number) {
     const response = await this.lessonService.deleteLesson(lessonId);
+    this.refreshTrigger().update(val => val + 1);
     if ('error' in response) {
       alert('Failed to delete lesson: ' + response.error);
     } else {
       console.log('Lesson deleted successfully:', response);
-      this.refreshTrigger.update(val => val + 1);
     }
   }
 }

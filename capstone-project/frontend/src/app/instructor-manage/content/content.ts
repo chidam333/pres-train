@@ -8,6 +8,7 @@ import {
   signal,
   OnInit,
   computed,
+  effect,
 } from '@angular/core';
 import { Lesson } from '../../Services/lesson';
 import { FormsModule } from '@angular/forms';
@@ -24,6 +25,7 @@ import { Profile } from "../../profile/profile";
 export class Content implements OnInit {
   lessonService = inject(Lesson);
   courseId = input.required<number>();
+  refreshTrigger = signal<number>(0);
   title: string = '';
   description: string = '';
   lessons = signal<any[]>([]);
@@ -36,6 +38,14 @@ export class Content implements OnInit {
     }
     return maxSequenceNo + 1;
   })
+
+  constructor(){
+    effect(async()=>{
+      this.refreshTrigger();
+      const lessons = await this.lessonService.getLessonsByCourseId(this.courseId());
+      this.lessons.set(lessons);
+    })
+  }
 
   async ngOnInit() {
     const lessons = await this.lessonService.getLessonsByCourseId(this.courseId());

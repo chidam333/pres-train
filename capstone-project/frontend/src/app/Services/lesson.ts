@@ -58,7 +58,7 @@ export class Lesson {
     if(!data['$values']) {
       return { error: 'No lessons found for this course' };
     }
-    return data['$values']; 
+    return data['$values'].sort((a: any, b: any) => a.sequenceNo - b.sequenceNo); 
   }
   async updateLesson(
     lessonId: number,

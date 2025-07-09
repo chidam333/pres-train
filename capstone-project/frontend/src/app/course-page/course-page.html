@@ -21,11 +21,11 @@
     <app-profile class="my-[1vh] pr-6" [invert]="true"></app-profile>
   </div>
 </nav>
-<div class="main h-[93vh] flex">
-  <div class="left h-full w-[70vw]">
+<div class="main h-[93vh] flex flex-col md:flex-row">
+  <div class="left h-full w-full md:w-[70vw] order-1 md:order-1">
     <app-course-page-left [courseDetails]="courseDetails()" [curMaterialId]="curMaterialId()" />
   </div>
-  <div class="right h-full w-[30vw]">
+  <div class="right h-full w-full md:w-[30vw] order-2 md:order-2">
     <app-course-page-right [courseDetails]="courseDetails()" [curMaterialId]="curMaterialId" />
   </div>
 </div>

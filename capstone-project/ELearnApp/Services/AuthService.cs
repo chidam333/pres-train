@@ -58,7 +58,7 @@ public class AuthService
         };
 
         await _userRepository.AddAsync(user);
-
+        Console.WriteLine($"User {user.Email} has role {userDto.Role}.");
         var roleName = string.IsNullOrEmpty(userDto.Role) ? "student" : userDto.Role.ToLower();
         var role = await _userRepository.GetRoleByNameAsync(roleName);
         if (role == null)
