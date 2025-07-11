@@ -12,16 +12,18 @@ using ELearnApp.Repositories;
 using ELearnApp.Models;
 using ELearnApp.Hubs;
 
+var builder = WebApplication.CreateBuilder(args);
+
+var connectionString = builder.Configuration["Keys:AzureBlobStorageConnectionString"];
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
     .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
     .WriteTo.Console()
-    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.AzureBlobStorage(connectionString)
     .CreateLogger();
 
 Log.Debug("Starting up the application.");
 
-var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddSerilog();
 
