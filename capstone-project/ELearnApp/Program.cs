@@ -4,7 +4,10 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Serilog;
+using Serilog.Sinks.AzureBlobStorage;
 using System.Threading.RateLimiting;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 
 using ELearnApp.Services;
 using ELearnApp.Contexts;
@@ -12,18 +15,32 @@ using ELearnApp.Repositories;
 using ELearnApp.Models;
 using ELearnApp.Hubs;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration["Keys:AzureBlobStorageConnectionString"];
-Log.Logger = new LoggerConfiguration()
+var client = new SecretClient(new Uri(builder.Configuration["Keys:KeyVaultConnectionString"]), new DefaultAzureCredential());
+try
+{
+    KeyVaultSecret blobConnectionString = await client.GetSecretAsync("ChidamSgConnectionUrl");
+    Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
     .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
     .MinimumLevel.Override("System", Serilog.Events.LogEventLevel.Warning)
     .WriteTo.Console()
-    .WriteTo.AzureBlobStorage(connectionString)
+    .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+    .WriteTo.AzureBlobStorage(
+        connectionString: blobConnectionString.Value,
+        storageContainerName: "weblogs",
+        storageFileName: "log-{yyyy}-{MM}-{dd}.txt",
+        restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Verbose)
     .CreateLogger();
+}
+catch (AuthenticationFailedException e)
+{
+    Console.WriteLine($"Authentication Failed. {e.Message}");
+}
 
-Log.Debug("Starting up the application.");
-
+Log.Error("Starting up the application.");
 
 builder.Services.AddSerilog();
 
@@ -111,8 +128,10 @@ builder.Services.AddRateLimiter(options =>
             }));
 });
 
-builder.Services.AddCors(options=>{
-    options.AddDefaultPolicy(policy=>{
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
         policy.WithOrigins("http://127.0.0.1:5500", "http://localhost:4200", "http://127.0.0.1:8080", "http://127.0.0.1:8081")
             .AllowAnyHeader()
             .AllowAnyMethod()
