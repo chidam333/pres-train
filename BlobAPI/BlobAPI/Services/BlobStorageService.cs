@@ -21,7 +21,8 @@ namespace BlobAPI.Services
 
         private async Task<BlobClient> GetBlobClientWithSas(string fileName)
         {
-            string functionUrl = $"https://chidam-fx-dotnet-cmabgrc2byg2c9au.eastus-01.azurewebsites.net/api/generate-sas/{fileName}?code=PfHzJFBVgL0FuGKmcZ7lWJVCigpQ4zsgzkZsdp3V_JQgAzFuMQpBMg==";
+            string code = _configuration["FunctionAccessCode:GenerateSasCode"];
+            string functionUrl = $"https://chidam-fx-dotnet-cmabgrc2byg2c9au.eastus-01.azurewebsites.net/api/generate-sas/{fileName}?code={code}";
             var client = _httpClientFactory.CreateClient();
             var sasResponse = await client.GetAsync(functionUrl);
             if (!sasResponse.IsSuccessStatusCode)
