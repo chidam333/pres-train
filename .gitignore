@@ -26,3 +26,7 @@ BuildLog.*
 # Roslyn
 *.ruleset.user
 *.env
+appsettings.json
+capstone-project
+sai-capstone
+
