@@ -15,9 +15,9 @@
 </div>
 
 @if (isDialogOpen()) {
-    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-xs border border-black" 
+    <div class="fixed inset-0 z-50 flex items-center justify-center p-4 backdrop-blur-xs" 
          (click)="onDialogBackdropClick($event)">
-        <div class="relative bg-white rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+        <div class="relative bg-amber-50 rounded-lg shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
              (click)="$event.stopPropagation()">
             <button class="absolute top-4 right-4 z-10 bg-black bg-opacity-50 text-white rounded-full w-8 h-8 flex items-center justify-center hover:bg-opacity-70 transition-colors"
                     (click)="closeVideoDialog()">
