@@ -1,0 +1,6 @@
+@TrainingVideos_HostAddress = http://localhost:5188
+
+GET {{TrainingVideos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

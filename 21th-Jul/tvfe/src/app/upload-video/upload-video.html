@@ -1,0 +1,86 @@
+<nav
+  class="bg-amber-600 p-4 text-center text-white font-mono text-2xl relative"
+>
+  upload videos
+  <div class="upload absolute right-4 top-1/2 transform -translate-y-1/2">
+    <a [routerLink]="['/']" class="bg-amber-500 text-white px-4 py-2 rounded"
+      >Videos</a
+    >
+  </div>
+</nav>
+
+<div class="upload-form py-4 px-12 md:px-54">
+  <form [formGroup]="uploadForm" (ngSubmit)="onSubmit()">
+    <div class="mb-2">
+      <label for="title" class="block text-gray-700 text-sm">Title</label>
+      <input
+        type="text"
+        id="title"
+        formControlName="title"
+        class="w-full p-1 border rounded text-sm"
+        [class.border-red-500]="uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched"
+      />
+      @if (uploadForm.get('title')?.invalid && uploadForm.get('title')?.touched) {
+        <div class="text-red-500 text-xs mt-1">Title is required</div>
+      }
+    </div>
+    <div class="mb-2">
+      <label for="description" class="block text-gray-700 text-sm"
+        >Description</label
+      >
+      <textarea
+        id="description"
+        formControlName="description"
+        class="w-full p-1 border rounded text-sm"
+        rows="2"
+        [class.border-red-500]="uploadForm.get('description')?.invalid && uploadForm.get('description')?.touched"
+      ></textarea>
+      @if (uploadForm.get('description')?.invalid && uploadForm.get('description')?.touched) {
+        <div class="text-red-500 text-xs mt-1">Description is required</div>
+      }
+    </div>
+    <div class="mb-3">
+      <label for="videoFile" class="block text-sm mb-1"
+        >Video File</label
+      >
+      <input
+        type="file"
+        id="videoFile"
+        accept="video/*"
+        (change)="onFileSelected($event)"
+        class="w-full text-sm border border-amber-400 rounded bg-amber-50 focus:border-amber-600 focus:ring-amber-600 file:bg-amber-500 file:text-white file:px-3 file:py-1 file:rounded file:border-0 file:mr-3 file:cursor-pointer"
+        [class.border-red-500]="!selectedFile && formSubmitted"
+      />
+      @if (!selectedFile && formSubmitted) {
+        <div class="text-red-500 text-xs mt-1">Video file is required</div>
+      }
+    </div>
+    
+    @if (isUploading) {
+      <div class="mb-3">
+        <div class="w-full bg-gray-200 rounded-full h-2">
+          <div class="bg-amber-500 h-2 rounded-full transition-all duration-300" [style.width.%]="uploadProgress"></div>
+        </div>
+        <div class="text-sm text-gray-600 mt-1">Uploading... {{uploadProgress}}%</div>
+      </div>
+    }
+    
+    @if (errorMessage) {
+      <div class="mb-3 p-2 bg-red-100 border border-red-400 text-red-700 rounded text-sm">
+        {{errorMessage}}
+      </div>
+    }
+    
+    <button
+      type="submit"
+      [disabled]="uploadForm.invalid || isUploading"
+      class="bg-amber-500 text-white px-3 py-1 rounded text-sm mt-16 disabled:bg-gray-400 disabled:cursor-not-allowed hover:bg-amber-600 transition-colors"
+    >
+      @if (isUploading) {
+        <span>Uploading...</span>
+      } @else {
+        <span>Upload Video</span>
+      }
+    </button>
+  </form>
+</div>
