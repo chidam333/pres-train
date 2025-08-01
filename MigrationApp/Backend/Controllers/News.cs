@@ -29,14 +29,33 @@ namespace Backend.Controllers
             return Ok(newsList);
         }
 
+        // GET: api/News/all
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<News>>> GetAll()
+        {
+            var newsList = await _context.News.OrderByDescending(x => x.NewsId).ToListAsync();
+            return Ok(newsList);
+        }
+
+        // GET: api/News/search?q=...
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<News>>> Search([FromQuery] string q)
+        {
+            if (string.IsNullOrEmpty(q))
+            {
+                return Ok(new List<News>());
+            }
+            var newsList = await _context.News
+                                        .Where(n => n.Title.Contains(q))
+                                        .OrderByDescending(x => x.NewsId)
+                                        .ToListAsync();
+            return Ok(newsList);
+        }
+
         // GET: api/News/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<News>> Details(int? id)
+        public async Task<ActionResult<News>> Details(int id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
             var news = await _context.News.FindAsync(id);
             if (news == null)
             {

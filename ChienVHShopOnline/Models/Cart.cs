@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
-namespace ChienVHShopOnline.Models
+namespace ChienVHShopOnline.Models;
+
+public class Cart
 {
-    public class Cart
-    {
-        public Product Product { get; set; }
-        public int Quantity { get; set; }
+    [Key]
+    public int Id { get; set; }
 
-        public Cart(Product product, int quantity)
-        {
-            Product = product;
-            Quantity = quantity;
-        }
-    }
+    public int ProductId { get; set; }
+    public Product Product { get; set; } = default!;
+
+    public int Quantity { get; set; }
 }

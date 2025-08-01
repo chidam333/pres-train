@@ -1,0 +1,25 @@
+
+<nav class="bg-gray-800 text-white p-4">
+  <div class="container mx-auto flex justify-between">
+    <div class="flex space-x-4">
+      <a routerLink="/" class="hover:bg-gray-700 px-3 py-2 rounded">Products</a>
+      <a routerLink="/cart" class="hover:bg-gray-700 px-3 py-2 rounded relative">
+        Cart
+        @if(cartItemCount() > 0) {
+          <span class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full h-6 w-6 flex items-center justify-center">
+            {{ cartItemCount() }}
+          </span>
+        }
+      </a>
+      
+      <a routerLink="/colors" class="hover:bg-gray-700 px-3 py-2 rounded">Colors</a>
+      <a routerLink="/news" class="hover:bg-gray-700 px-3 py-2 rounded">News</a>
+      <a routerLink="/contact" class="hover:bg-gray-700 px-3 py-2 rounded">Contact</a>
+      <a routerLink="/login" class="hover:bg-gray-700 px-3 py-2 rounded">Login</a>
+    </div>
+  </div>
+</nav>
+
+<main class="container mx-auto p-4">
+  <router-outlet />
+</main>

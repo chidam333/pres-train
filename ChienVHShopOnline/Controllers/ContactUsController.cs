@@ -1,146 +1,46 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using ChienVHShopOnline.Models;
+using ChienVHShopOnline.DTOs;
+using ChienVHShopOnline.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace ChienVHShopOnline.Controllers
+namespace ChienVHShopOnline.Controllers;
+
+[ApiController]
+[Route("api/contactus")]
+[Authorize]
+public class ContactUController : ControllerBase
 {
-    public class ContactUsController : Controller
+    private readonly IContactUService _service;
+
+    public ContactUController(IContactUService service)
     {
-        ChienVHShopDBEntities db = new ChienVHShopDBEntities();
-        // GET: ContactUs
-        public ActionResult Index()
-        {
-            return View();
-        }
+        _service = service;
+    }
 
-        [HttpPost]
-        public ActionResult ValidateCaptcha(FormCollection collection)
-        {
-            var respone = Request["g-recaptcha-response"];
-            const string secret = "6Le2GC8UAAAAAKzGJ7VQ3kIC6zqqbcWFpbp-l6Qv";
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ContactUReadDto>>> GetAll()
+    {
+        return Ok(await _service.GetAllAsync());
+    }
 
-            var client = new WebClient();
-            var reply = client.DownloadString(
-                        string.Format("https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}",secret,respone)
-                );
-            var captchaResponse = JsonConvert.DeserializeObject<CaptchaResponse>(reply);
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ContactUReadDto>> GetById(int id)
+    {
+        var contact = await _service.GetByIdAsync(id);
+        return contact == null ? NotFound() : Ok(contact);
+    }
 
-            // Check error returns from google recaptcha
-            if (!captchaResponse.Success)
-            {
-                // TODO: Handle error messages
-                if (captchaResponse.ErrorCodes.Count <= 0) return View("Index");
-                var error = captchaResponse.ErrorCodes[0].ToLower();
-                switch (error)
-                {
-                    case "missing-input-secret":
-                        ViewBag.Message = "Missing secret parameter";
-                        break;
-                    case "invalid-input-secret":
-                        ViewBag.Message = "The secret is invalid or malformed";
-                        break;
-                    case "missing-input-response":
-                        ViewBag.Message = "Missing response parameter";
-                        break;
-                    case "invalid-input-response":
-                        ViewBag.Message = "The response parameter is invalid of malformed";
-                        break;
-                    default:
-                        ViewBag.Message = "Error occured. Please try again later";
-                        break;
-                }
-            }
-            else
-            {
-                // TODO: Handle success case
-                ContactU contact = new ContactU()
-                {
-                    name = collection["cusName"],
-                    email = collection["cusEmail"],
-                    phone = collection["cusPhone"],
-                    content = collection["cusContent"]
-                };
-                db.ContactUs.Add(contact);
-                db.SaveChanges();
-                ViewBag.Message = "Your query has been submitted successfully. We will get back you you shortly!";
-            }
-            return View("Index");
-        }
-        // GET: ContactUs/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
+    [HttpPost]
+    public async Task<ActionResult<ContactUReadDto>> Create(ContactUCreateDto dto)
+    {
+        var created = await _service.CreateAsync(dto);
+        return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+    }
 
-        // GET: ContactUs/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: ContactUs/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ContactUs/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: ContactUs/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: ContactUs/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: ContactUs/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var deleted = await _service.DeleteAsync(id);
+        return deleted ? NoContent() : NotFound();
     }
 }

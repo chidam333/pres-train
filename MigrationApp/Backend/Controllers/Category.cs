@@ -19,6 +19,7 @@ namespace Backend.Controllers
             _context = context;
         }
 
+        // GET: api/Category
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Category>>> Index(int? page)
         {
@@ -28,26 +29,33 @@ namespace Backend.Controllers
             return Ok(catList);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Category>> Create([FromBody] Category category)
+        // GET: api/Category/all
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Category>>> GetAll()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Categories.Add(category);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Details), new { id = category.CategoryID }, category);
-            }
-
-            return BadRequest(ModelState);
+            var catList = await _context.Categories.OrderBy(x => x.Name).ToListAsync();
+            return Ok(catList);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Category>> Details(int? id)
+        // GET: api/Category/search?q=...
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Category>>> Search([FromQuery] string q)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(q))
             {
-                return BadRequest();
+                return Ok(new List<Category>());
             }
+            var catList = await _context.Categories
+                                        .Where(c => c.Name.Contains(q))
+                                        .OrderBy(x => x.Name)
+                                        .ToListAsync();
+            return Ok(catList);
+        }
+
+        // GET: api/Category/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Category>> Details(int id)
+        {
             var category = await _context.Categories.FindAsync(id);
             if (category == null)
             {
@@ -56,10 +64,25 @@ namespace Backend.Controllers
             return Ok(category);
         }
 
+        // POST: api/Category
+        [HttpPost]
+        public async Task<ActionResult<Category>> Create([FromBody] Category category)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Add(category);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Details), new { id = category.CategoryId }, category);
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        // PUT: api/Category/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] Category category)
         {
-            if (id != category.CategoryID)
+            if (id != category.CategoryId)
             {
                 return BadRequest();
             }
@@ -73,7 +96,7 @@ namespace Backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.Categories.Any(e => e.CategoryID == id))
+                    if (!_context.Categories.Any(e => e.CategoryId == id))
                     {
                         return NotFound();
                     }
@@ -87,6 +110,7 @@ namespace Backend.Controllers
             return BadRequest(ModelState);
         }
 
+        // DELETE: api/Category/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

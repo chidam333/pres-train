@@ -19,34 +19,43 @@ namespace Backend.Controllers
             _context = context;
         }
 
+        // GET: api/Color
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Color>>> Index(int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 10;
-            var colorList = await _context.Colors.OrderBy(x => x.Name).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+            var colorList = await _context.Colors.OrderBy(x => x.Color1).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
             return Ok(colorList);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<Color>> Create([FromBody] Color color)
+        // GET: api/Color/all
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Color>>> GetAll()
         {
-            if (ModelState.IsValid)
-            {
-                _context.Colors.Add(color);
-                await _context.SaveChangesAsync();
-                return CreatedAtAction(nameof(Details), new { id = color.ColorID }, color);
-            }
-            return BadRequest(ModelState);
+            var colorList = await _context.Colors.OrderBy(x => x.Color1).ToListAsync();
+            return Ok(colorList);
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Color>> Details(int? id)
+        // GET: api/Color/search?q=...
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Color>>> Search([FromQuery] string q)
         {
-            if (id == null)
+            if (string.IsNullOrEmpty(q))
             {
-                return BadRequest();
+                return Ok(new List<Color>());
             }
+            var colorList = await _context.Colors
+                                        .Where(c => c.Color1.Contains(q))
+                                        .OrderBy(x => x.Color1)
+                                        .ToListAsync();
+            return Ok(colorList);
+        }
+
+        // GET: api/Color/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Color>> Details(int id)
+        {
             var color = await _context.Colors.FindAsync(id);
             if (color == null)
             {
@@ -55,10 +64,24 @@ namespace Backend.Controllers
             return Ok(color);
         }
 
+        // POST: api/Color
+        [HttpPost]
+        public async Task<ActionResult<Color>> Create([FromBody] Color color)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Colors.Add(color);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Details), new { id = color.ColorId }, color);
+            }
+            return BadRequest(ModelState);
+        }
+
+        // PUT: api/Color/5
         [HttpPut("{id}")]
         public async Task<IActionResult> Edit(int id, [FromBody] Color color)
         {
-            if (id != color.ColorID)
+            if (id != color.ColorId)
             {
                 return BadRequest();
             }
@@ -72,7 +95,7 @@ namespace Backend.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!_context.Colors.Any(e => e.ColorID == id))
+                    if (!_context.Colors.Any(e => e.ColorId == id))
                     {
                         return NotFound();
                     }
@@ -86,6 +109,7 @@ namespace Backend.Controllers
             return BadRequest(ModelState);
         }
 
+        // DELETE: api/Color/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

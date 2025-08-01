@@ -35,19 +35,92 @@ namespace Backend.Controllers
             return Ok(productList);
         }
 
-        [HttpGet("details/{id}")]
-        public async Task<ActionResult<Product>> Details(int? id)
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
-            if (id == null)
+            var productList = await _context.Products.OrderByDescending(x => x.ProductId).ToListAsync();
+            return Ok(productList);
+        }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Product>>> Search([FromQuery] string q)
+        {
+            if (string.IsNullOrEmpty(q))
             {
-                return BadRequest();
+                return Ok(new List<Product>());
             }
+            var productList = await _context.Products
+                                        .Where(p => p.ProductName.Contains(q))
+                                        .OrderByDescending(x => x.ProductId)
+                                        .ToListAsync();
+            return Ok(productList);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Product>> Details(int id)
+        {
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
             }
             return Ok(product);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<Product>> Create([FromBody] Product product)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Products.Add(product);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction(nameof(Details), new { id = product.ProductId }, product);
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Edit(int id, [FromBody] Product product)
+        {
+            if (id != product.ProductId)
+            {
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Entry(product).State = EntityState.Modified;
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!_context.Products.Any(e => e.ProductId == id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return NoContent();
+            }
+            return BadRequest(ModelState);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            _context.Products.Remove(product);
+            await _context.SaveChangesAsync();
+            return NoContent();
         }
     }
 }

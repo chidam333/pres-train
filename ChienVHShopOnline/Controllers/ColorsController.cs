@@ -1,127 +1,55 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
-using System.Linq;
-using System.Net;
-using System.Web;
-using System.Web.Mvc;
-using ChienVHShopOnline.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using ChienVHShopOnline.Interfaces;
+using ChienVHShopOnline.DTOs;
 
-namespace ChienVHShopOnline.Controllers
+namespace ChienVHShopOnline.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+[Authorize]
+public class ColorsController : ControllerBase
 {
-    public class ColorsController : Controller
+    private readonly IColorService _colorService;
+
+    public ColorsController(IColorService colorService)
     {
-        private ChienVHShopDBEntities db = new ChienVHShopDBEntities();
+        _colorService = colorService;
+    }
 
-        // GET: Colors
-        public ActionResult Index()
-        {
-            return View(db.Colors.ToList());
-        }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<ColorReadDto>>> GetAll()
+    {
+        var result = await _colorService.GetAllAsync();
+        return Ok(result);
+    }
 
-        // GET: Colors/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Color color = db.Colors.Find(id);
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-            return View(color);
-        }
+    [HttpGet("{id}")]
+    public async Task<ActionResult<ColorReadDto>> Get(int id)
+    {
+        var color = await _colorService.GetByIdAsync(id);
+        if (color == null) return NotFound();
+        return Ok(color);
+    }
 
-        // GET: Colors/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+    [HttpPost]
+    public async Task<ActionResult<ColorReadDto>> Create(ColorCreateDto dto)
+    {
+        var created = await _colorService.CreateAsync(dto);
+        return CreatedAtAction(nameof(Get), new { id = created.ColorId }, created);
+    }
 
-        // POST: Colors/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ColorId,Color1")] Color color)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Colors.Add(color);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, ColorUpdateDto dto)
+    {
+        var success = await _colorService.UpdateAsync(id, dto);
+        return success ? NoContent() : NotFound();
+    }
 
-            return View(color);
-        }
-
-        // GET: Colors/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Color color = db.Colors.Find(id);
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-            return View(color);
-        }
-
-        // POST: Colors/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ColorId,Color1")] Color color)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(color).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(color);
-        }
-
-        // GET: Colors/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Color color = db.Colors.Find(id);
-            if (color == null)
-            {
-                return HttpNotFound();
-            }
-            return View(color);
-        }
-
-        // POST: Colors/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            Color color = db.Colors.Find(id);
-            db.Colors.Remove(color);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var success = await _colorService.DeleteAsync(id);
+        return success ? NoContent() : NotFound();
     }
 }

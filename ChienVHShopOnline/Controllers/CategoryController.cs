@@ -1,117 +1,84 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+using AutoMapper;
+using ChienVHShopOnline.DTOs;
 using ChienVHShopOnline.Models;
-using System.Net;
-using System.Data.Entity;
-using PagedList;
+using ChienVHShopOnline.Services;
+using ChienVHShopOnline.Interfaces;
+using ChienVHShopOnline.Profiles;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
-namespace ChienVHShopOnline.Controllers
+namespace ChienVHShopOnline.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+[Authorize]
+public class CategoryController : ControllerBase
 {
-    public class CategoryController : Controller
+    private readonly ICategoryService _service;
+    private readonly IMapper _mapper;
+
+    public CategoryController(ICategoryService service, IMapper mapper)
     {
-        ChienVHShopDBEntities db = new ChienVHShopDBEntities();
-        // GET: Category
-        public ActionResult Index(int? page)
-        {
-            int pageNumber = page ?? 1;
-            int pageSize = 5;
-            var catList = db.Categories.OrderBy(x => x.Name).ToPagedList(pageNumber, pageSize);
-            return View(catList);
-            //return View(db.Categories.OrderBy(x => x.Name).ToList());
-        }
+        _service = service;
+        _mapper = mapper;
+    }
 
-        public PartialViewResult CategoryPartial()
-        {
-            var categoryList = db.Categories.OrderBy(x => x.Name).ToList();
-            return PartialView(categoryList);
-        }
+    // GET: api/Category
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<CategoryReadDto>>> GetAll()
+    {
+        var categories = await _service.GetAllAsync();
+        return Ok(_mapper.Map<IEnumerable<CategoryReadDto>>(categories));
+    }
 
-        // GET: Category/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
+    // GET: api/Category/5
+    [HttpGet("{id}")]
+    public async Task<ActionResult<CategoryReadDto>> GetById(int id)
+    {
+        var category = await _service.GetByIdAsync(id);
+        if (category == null)
+            return NotFound();
 
-        // POST: Category/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CategoryID,Name")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Categories.Add(category);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+        return Ok(_mapper.Map<CategoryReadDto>(category));
+    }
 
-            return View(category);
-        }
+    // POST: api/Category
+    [HttpPost]
+    public async Task<ActionResult<CategoryReadDto>> Create(CategoryCreateDto dto)
+    {
+        var category = _mapper.Map<Category>(dto);
+        await _service.CreateAsync(category);
 
-        // GET: Category/Edit/1
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Category category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
-        }
+        var result = _mapper.Map<CategoryReadDto>(category);
+        return CreatedAtAction(nameof(GetById), new { id = result.CategoryId }, result);
+    }
 
-        // POST: Category/Edit/1
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "CategoryId,Name")] Category category)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(category).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(category);
-        }
+    // PUT: api/Category/5
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, CategoryUpdateDto dto)
+    {
+        if (id != dto.CategoryId)
+            return BadRequest("ID mismatch");
 
-        // GET: Category/Details/1
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var category = db.Categories.Find(id);
-            if (category == null)
-            {
-                return HttpNotFound();
-            }
-            return View(category);
-        }
+        var existing = await _service.GetByIdAsync(id);
+        if (existing == null)
+            return NotFound();
 
-        // POST: Category/Delete/1
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            var category = db.Categories.Find(id);
-            db.Categories.Remove(category);
-            db.SaveChanges();
-            return RedirectToAction("Index");
-        }
+        _mapper.Map(dto, existing);
+        await _service.UpdateAsync(existing);
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                base.Dispose(disposing);
-            }
-            base.Dispose(disposing);
-        }
+        return Ok(_mapper.Map<CategoryReadDto>(existing));
+    }
+
+    // DELETE: api/Category/5
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var existing = await _service.GetByIdAsync(id);
+        if (existing == null)
+            return NotFound();
+
+        await _service.DeleteAsync(existing.CategoryId);
+        return Ok();
     }
 }

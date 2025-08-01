@@ -29,14 +29,18 @@ namespace Backend.Controllers
             return Ok(orderList);
         }
 
+        // GET: api/Order/all
+        [HttpGet("all")]
+        public async Task<ActionResult<IEnumerable<Order>>> GetAll()
+        {
+            var orderList = await _context.Orders.OrderByDescending(x => x.OrderID).ToListAsync();
+            return Ok(orderList);
+        }
+
         // GET: api/Order/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Order>> Details(int? id)
+        public async Task<ActionResult<Order>> Details(int id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
             var order = await _context.Orders
                 .Include(o => o.OrderDetails)
                 .ThenInclude(od => od.Product)

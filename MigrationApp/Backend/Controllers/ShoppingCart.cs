@@ -42,7 +42,7 @@ namespace Backend.Controllers
         private static T GetObjectFromJson<T>(ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default(T) : JsonSerializer.Deserialize<T>(value);
+            return value == null ? default(T)! : JsonSerializer.Deserialize<T>(value)!;
         }
 
         [HttpGet]
@@ -53,13 +53,8 @@ namespace Backend.Controllers
         }
 
         [HttpPost("OrderNow/{id}")]
-        public async Task<IActionResult> OrderNow(int? id)
+        public async Task<IActionResult> OrderNow(int id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
-
             var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
@@ -81,7 +76,7 @@ namespace Backend.Controllers
             return Ok(cart);
         }
 
-        private int IsExistingCheck(int? id, List<Cart> cart)
+        private int IsExistingCheck(int id, List<Cart> cart)
         {
             for (int i = 0; i < cart.Count; i++)
             {
@@ -91,12 +86,8 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int? id)
+        public IActionResult Delete(int id)
         {
-            if (id == null)
-            {
-                return BadRequest();
-            }
             var cart = GetObjectFromJson<List<Cart>>(HttpContext.Session, CartSessionKey);
             if (cart != null)
             {

@@ -1,16 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using Newtonsoft.Json;
 
-namespace ChienVHShopOnline.Models
+namespace ChienVHShopOnline.Models;
+
+public class CaptchaResponse
 {
-    public class CaptchaResponse
-    {
-        [JsonProperty("success")]
-        public bool Success { get; set; }
-        [JsonProperty("error-codes")]
-        public List<string> ErrorCodes { get; set; }
-    }
+    [JsonProperty("success")]
+    public bool Success { get; set; }
+
+    [JsonProperty("error-codes")]
+    public List<string> ErrorCodes { get; set; } = new();
 }
